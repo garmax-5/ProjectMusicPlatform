@@ -1,0 +1,52 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "com.example.grpccommon";
+option java_outer_classname = "CatalogProto";
+option objc_class_prefix = "RTG";
+
+package catalog;
+
+service CatalogService {
+  rpc GetAlbumDetails(GetAlbumRequest) returns (GetAlbumResponse);
+  rpc GetArtistDetails(GetArtistRequest) returns (GetArtistResponse);
+  rpc GetTrackDetails(GetTrackRequest) returns (GetTrackResponse); // Новый метод
+}
+
+message GetAlbumRequest {
+  int64 albumId = 1;
+}
+
+message GetAlbumResponse {
+  int64 albumId = 1;
+  string albumName = 2;
+  string albumType = 3;
+  int32 releaseYear = 4;
+}
+
+message GetArtistRequest {
+  int64 artistId = 1;
+}
+
+message GetArtistResponse {
+  int64 artistId = 1;
+  string artistName = 2;
+  int32 listenerCount = 3;
+}
+
+// Новый запрос для получения информации о треке
+message GetTrackRequest {
+  int64 trackId = 1; // Идентификатор трека
+}
+
+// Новый ответ для получения информации о треке
+message GetTrackResponse {
+  int64 trackId = 1;
+  string trackName = 2;
+  int32 duration = 3;
+  string fileUrl = 4;
+  string genreName = 5; // Название жанра
+  string mediaTypeName = 6; // Тип медиа
+  int64 albumId = 7; // Идентификатор альбома
+  string albumName = 8; // Название альбома
+}

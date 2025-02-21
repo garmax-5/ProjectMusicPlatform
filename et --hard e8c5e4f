@@ -1,0 +1,42 @@
+[33mcommit 89bb4af4e31044c3d9428275ae16484f82a8094e[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m
+Merge: 8ed7e20 cfd4098
+Author: Максим <garmash.maksim2015@yandex.ru>
+Date:   Fri Feb 21 18:38:16 2025 +0300
+
+    Merge remote-tracking branch 'origin/main'
+
+[33mcommit 8ed7e20f7bde90b75757ab983fc7e4a9cb92834b[m
+Author: Максим <garmash.maksim2015@yandex.ru>
+Date:   Fri Feb 21 18:37:17 2025 +0300
+
+    Test
+
+[33mcommit cfd40989de6bcec518713b89c7c83560197c89d3[m
+Author: garmax-5 <138210822+garmax-5@users.noreply.github.com>
+Date:   Fri Feb 21 18:22:02 2025 +0300
+
+    Add api-gateway
+
+[33mcommit e8c5e4fb4b455ac6bf70cd7e969b32ba1702aace[m
+Author: garmax-5 <138210822+garmax-5@users.noreply.github.com>
+Date:   Fri Feb 21 18:19:25 2025 +0300
+
+    Delete user-microservice directory
+
+[33mcommit 5e6b72e69d733dcfdd71b207baa5b19b98c05d75[m
+Author: garmax-5 <138210822+garmax-5@users.noreply.github.com>
+Date:   Fri Feb 21 18:18:53 2025 +0300
+
+    Delete subscription-microservice directory
+
+[33mcommit 70104c5f32c0cd2ebc603d5852f8343a867babe2[m
+Author: garmax-5 <138210822+garmax-5@users.noreply.github.com>
+Date:   Fri Feb 21 18:17:03 2025 +0300
+
+    Update SubscriptionController.java
+
+[33mcommit 95a76f1455d88c5eebab673ae9fdcdeb9bde207f[m
+Author: Максим <garmash.maksim2015@yandex.ru>
+Date:   Fri Nov 29 22:50:40 2024 +0300
+
+    UserService & SubscriptionService
