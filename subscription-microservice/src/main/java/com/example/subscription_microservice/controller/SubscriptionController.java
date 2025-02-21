@@ -34,22 +34,4 @@ public class SubscriptionController {
         return ResponseEntity.ok(subscriptions);
     }
 
-
-//    @PostMapping("/subscribe")
-//    public ResponseEntity<?> subscribe(@RequestHeader("Authorization") String token,
-//                                       @RequestParam Long subscriptionId) {
-//        if (!token.startsWith("Bearer ")) {
-//            return ResponseEntity.badRequest().body("Недопустимый формат токена");
-//        }
-//
-//        try {
-//            String jwtToken = token.substring(7); // Убираем "Bearer " из заголовка
-//            UserSubscription userSubscription = subscriptionService.addSubscriptionToUser(jwtToken, subscriptionId);
-//            return ResponseEntity.ok(userSubscription);
-//        } catch (Exception e) {
-//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-//        }
-//    }
-
 }
-
