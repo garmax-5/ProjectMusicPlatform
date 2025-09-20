@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Управление исполнителями | Админ-панель</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #f0f4ff, #fafafa);
+            margin: 0;
+            padding: 40px;
+        }
+
+        .toolbar {
+            background: white;
+            padding: 18px 30px;
+            border-radius: 18px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.07);
+            margin-bottom: 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .toolbar div:first-child {
+            font-size: 20px;
+            font-weight: 600;
+            color: #2d3748;
+        }
+
+        .toolbar a {
+            text-decoration: none;
+            margin-left: 25px;
+            font-weight: 500;
+        }
+
+        .toolbar a:first-child {
+            color: #5a67d8;
+        }
+
+        .toolbar a:last-child {
+            color: #e53e3e;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
+        }
+
+        h1 {
+            margin-top: 0;
+            margin-bottom: 30px;
+            color: #2d3748;
+        }
+
+        form.artist-form {
+            margin-bottom: 40px;
+            background: #f9f9ff;
+            padding: 25px 30px;
+            border-radius: 16px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.04);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-weight: 600;
+            display: block;
+            margin-bottom: 6px;
+            color: #4a5568;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px 14px;
+            border: 2px solid #d0d7ff;
+            border-radius: 12px;
+            font-size: 15px;
+            background: white;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #7f9cf5;
+        }
+
+        .form-actions {
+            text-align: left;
+        }
+
+        .form-actions button {
+            background-color: #5a67d8;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 24px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        .form-actions button:hover {
+            background-color: #434190;
+        }
+
+        .table-wrapper {
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead {
+            background: #edf2f7;
+        }
+
+        th {
+            padding: 14px 18px;
+            text-align: left;
+            color: #4a5568;
+            font-weight: 600;
+        }
+
+        th.name-col {
+            width: 35%;
+        }
+
+        th.count-col {
+            width: 25%;
+        }
+
+        th.actions-col {
+            width: 40%;
+        }
+
+        td {
+            padding: 14px 18px;
+            vertical-align: middle;
+            border-top: 1px solid #e2e8f0;
+            background: #ffffff;
+        }
+
+        .delete-button {
+            background-color: #e53e3e;
+            color: white;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 16px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s ease;
+        }
+
+        .delete-button:hover {
+            background-color: #c53030;
+        }
+
+        .edit-button {
+            background-color: #4299e1;
+            color: white;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 16px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-right: 8px;
+        }
+
+        .edit-button:hover {
+            background-color: #3182ce;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.5);
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 10% auto;
+            padding: 30px;
+            border: 1px solid #888;
+            border-radius: 12px;
+            width: 400px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        .modal input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 12px;
+            border-radius: 10px;
+            border: 1px solid #ccc;
+        }
+
+        .modal .modal-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+
+        .save-button, .cancel-button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 20px;
+            font-size: 15px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .save-button {
+            background-color: #5a67d8;
+            color: white;
+        }
+
+        .save-button:hover {
+            background-color: #434190;
+        }
+
+        .cancel-button {
+            background-color: #edf2f7;
+            color: #2d3748;
+        }
+
+        .cancel-button:hover {
+            background-color: #e2e8f0;
+        }
+    </style>
+</head>
+<body>
+
+<div class="toolbar">
+    <div>Админ-панель | GarMusic</div>
+    <div>
+        <a href="/admin/dashboard">Главная</a>
+        <a href="/logout">Выйти</a>
+    </div>
+</div>
+
+<div class="container">
+    <h1>Управление исполнителями</h1>
+
+    <form th:action="@{/admin/artists/create}" method="post" th:object="${newArtist}" class="artist-form">
+        <div class="form-group">
+            <label for="name">Имя исполнителя</label>
+            <input type="text" th:field="*{name}" id="name" required />
+        </div>
+        <div class="form-group">
+            <label for="listeners">Количество слушателей</label>
+            <input type="number" th:field="*{listenerCount}" id="listeners" min="0" required />
+        </div>
+        <div class="form-actions">
+            <button type="submit">Создать исполнителя</button>
+        </div>
+    </form>
+
+    <!-- форма поиска -->
+    <form th:action="@{/admin/artists}" method="get" style="margin-bottom: 30px;">
+        <input type="text" name="name" th:value="${searchQuery}" placeholder="Поиск по имени исполнителя"
+               style="padding: 10px 14px; width: 730px; border-radius: 12px; border: 2px solid #d0d7ff;">
+        <button type="submit"
+                style="padding: 10px 20px; background-color: #5a67d8; color: white; border: none; border-radius: 20px; margin-left: 10px;">
+            Найти
+        </button>
+    </form>
+
+    <!--  таблица только если есть результаты -->
+    <div class="table-wrapper" th:if="${searchQuery != null and !searchQuery.isBlank() and artists != null and !artists.isEmpty()}">
+    <table>
+            <thead>
+            <tr>
+                <th class="name-col">Имя</th>
+                <th>Слушателей</th>
+                <th class="actions-col">Действие</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="artist : ${artists}">
+                <td th:text="${artist.name}">Имя</td>
+                <td th:text="${artist.listenerCount}">0</td>
+                <td>
+                    <button class="edit-button"
+                            th:attr="data-id=${artist.id}, data-name=${artist.name}, data-count=${artist.listenerCount}">
+                        Редактировать
+                    </button>
+                    <form th:action="@{'/admin/artists/delete/' + ${artist.id}}" method="post" style="display:inline;">
+                        <button type="submit" class="delete-button">Удалить</button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div th:if="${searchQuery != null and !searchQuery.isBlank() and (artists == null or artists.isEmpty())}">
+        <p>Ничего не найдено</p>
+    </div>
+</div>
+
+<!-- МОДАЛЬНОЕ ОКНО -->
+<div id="editModal" class="modal" style="display: none;">
+    <div class="modal-content">
+        <h2>Редактировать исполнителя</h2>
+        <form id="editArtistForm">
+            <input type="hidden" id="edit-id">
+            <label>Имя</label>
+            <input type="text" id="edit-name" required>
+            <label>Слушателей</label>
+            <input type="number" id="edit-listeners" min="0" required>
+            <div class="modal-actions">
+                <button type="button" class="cancel-button" onclick="document.getElementById('editModal').style.display = 'none';">Отмена</button>
+                <button type="submit" class="save-button">Сохранить</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    document.querySelectorAll(".edit-button").forEach(button => {
+        button.addEventListener("click", () => {
+            document.getElementById("edit-id").value = button.dataset.id;
+            document.getElementById("edit-name").value = button.dataset.name;
+            document.getElementById("edit-listeners").value = button.dataset.count;
+            document.getElementById("editModal").style.display = "block";
+        });
+    });
+
+    document.getElementById("editArtistForm").addEventListener("submit", function(e) {
+        e.preventDefault();
+        const id = document.getElementById("edit-id").value;
+        const updated = {
+            name: document.getElementById("edit-name").value,
+            listenerCount: parseInt(document.getElementById("edit-listeners").value)
+        };
+        fetch(`/api/catalog/artists/${id}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(updated)
+        }).then(r => {
+            if (!r.ok) throw new Error("Ошибка при обновлении");
+            location.reload();
+        }).catch(e => alert("Не удалось обновить исполнителя: " + e.message));
+    });
+</script>
+
+</body>
+</html>

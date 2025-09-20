@@ -1,0 +1,177 @@
+<div id="mini-player" class="mini-player collapsed" th:fragment="miniPlayer" xmlns:th="http://www.w3.org/1999/xhtml">
+    <div class="mini-player-header" onclick="toggleMiniPlayer()">
+        <div id="track-info">Трек не выбран</div>
+        <div id="toggle-arrow">▲</div>
+    </div>
+    <div class="mini-player-expanded">
+        <img id="album-cover" src="/images/default_cover.jpg" alt="Обложка альбома">
+        <div class="track-details">
+            <div id="track-name">Название трека</div>
+            <div id="track-artist">Исполнитель</div>
+            <div class="controls">
+                <button onclick="prevTrack()" title="Предыдущий">
+                    <i class="fas fa-backward"></i>
+                </button>
+                <button onclick="togglePlay()" title="Пауза / Воспроизведение">
+                    <i class="fas fa-play" id="play-pause-icon"></i>
+                </button>
+                <button onclick="nextTrack()" title="Следующий">
+                    <i class="fas fa-forward"></i>
+                </button>
+            </div>
+        </div>
+        <audio id="audio-player" preload="metadata" onended="nextTrack()"></audio>
+    </div>
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
+
+    <style>
+        .mini-player {
+            position: fixed;
+            bottom: 0; left: 0; right: 0;
+            background: white;
+            border-top: 1px solid #cbd5e0;
+            box-shadow: 0 -2px 12px rgba(0, 0, 0, 0.08);
+            font-family: 'Segoe UI', sans-serif;
+            z-index: 9999;
+            transition: max-height 0.3s ease;
+            overflow: hidden;
+        }
+
+        .mini-player.collapsed { max-height: 60px; }
+        .mini-player.expanded { max-height: 240px; }
+
+        .mini-player-header {
+            background-color: #5a67d8;
+            color: white;
+            padding: 12px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .mini-player-expanded {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .mini-player-expanded img {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 12px;
+            background-color: #f0f0f0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .track-details {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        #track-name {
+            font-size: 18px;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 6px;
+        }
+
+        #track-artist {
+            font-size: 14px;
+            color: #718096;
+            margin-bottom: 14px;
+        }
+
+        .controls {
+            display: flex;
+            gap: 18px;
+        }
+
+        .controls button {
+            background-color: #5a67d8;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            padding: 12px;
+            width: 48px;
+            height: 48px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.1s ease;
+        }
+
+        .controls button:hover {
+            background-color: #434190;
+            transform: scale(1.05);
+        }
+
+        .controls i {
+            pointer-events: none;
+        }
+    </style>
+
+    <script>
+        let isPlaying = false;
+
+        function toggleMiniPlayer() {
+            const player = document.getElementById("mini-player");
+            player.classList.toggle("collapsed");
+            player.classList.toggle("expanded");
+            document.getElementById("toggle-arrow").textContent = player.classList.contains("collapsed") ? "▲" : "▼";
+        }
+
+        function togglePlay() {
+            const audio = document.getElementById("audio-player");
+            const icon = document.getElementById("play-pause-icon");
+            if (audio.paused) {
+                audio.play();
+                icon.classList.remove("fa-play");
+                icon.classList.add("fa-pause");
+                isPlaying = true;
+            } else {
+                audio.pause();
+                icon.classList.remove("fa-pause");
+                icon.classList.add("fa-play");
+                isPlaying = false;
+            }
+        }
+
+        function prevTrack() {
+            alert("Функция предыдущего трека пока не реализована");
+        }
+
+        function nextTrack() {
+            alert("Функция следующего трека пока не реализована");
+        }
+
+        function setTrack(name, artist, url, coverFileName) {
+            const coverUrl = `http://localhost:8083/images/${coverFileName}`;
+            document.getElementById("track-info").textContent = `${name} — ${artist}`;
+            document.getElementById("track-name").textContent = name;
+            document.getElementById("track-artist").textContent = artist;
+            document.getElementById("album-cover").src = coverUrl;
+            document.getElementById("audio-player").src = url;
+            document.getElementById("audio-player").play();
+            document.getElementById("play-pause-icon").classList.remove("fa-play");
+            document.getElementById("play-pause-icon").classList.add("fa-pause");
+            isPlaying = true;
+            localStorage.setItem("miniPlayerData", JSON.stringify({ name, artist, url, coverFileName }));
+        }
+
+        window.addEventListener("DOMContentLoaded", () => {
+            const saved = JSON.parse(localStorage.getItem("miniPlayerData"));
+            if (saved) {
+                setTrack(saved.name, saved.artist, saved.url, saved.coverFileName);
+            }
+        });
+    </script>
+</div>

@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${artist.name} + ' | Профиль исполнителя'">Профиль исполнителя</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #f0f4ff, #fafafa);
+            padding: 40px;
+            margin: 0;
+        }
+        .container {
+            max-width: 1000px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
+        }
+        .back-button {
+            margin-bottom: 20px;
+        }
+        .back-button a {
+            text-decoration: none;
+            background-color: #6c757d;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+        .back-button a:hover {
+            background-color: #5a6268;
+        }
+        .artist-header {
+            margin-bottom: 30px;
+        }
+        .artist-label {
+            font-size: 16px;
+            font-weight: 600;
+            color: #718096;
+            margin-bottom: 6px;
+        }
+        .artist-name {
+            font-size: 54px;
+            font-weight: bold;
+            color: #2d3748;
+            margin-bottom: 14px;
+        }
+        .listener-box {
+            display: inline-block;
+            padding: 8px 16px;
+            font-size: 14px;
+            border: 2px solid #5a67d8;
+            border-radius: 20px;
+            font-weight: bold;
+            color: #5a67d8;
+            background-color: #ebedff;
+            margin-bottom: 20px;
+        }
+        .play-button {
+            margin-top: 0;
+        }
+        .play-button button {
+            padding: 12px 24px;
+            background-color: #5a67d8;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+        .play-button button:hover {
+            background-color: #434190;
+        }
+        .table-wrapper {
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+            margin-bottom: 40px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        thead {
+            background: #edf2f7;
+        }
+        th {
+            padding: 14px 18px;
+            text-align: center;
+            color: #4a5568;
+            font-weight: 600;
+        }
+        td {
+            padding: 14px 18px;
+            vertical-align: middle;
+            border-top: 1px solid #e2e8f0;
+            background: #ffffff;
+            text-align: left;
+        }
+        td.audio-cell audio {
+            width: 100%;
+            min-width: 300px;
+        }
+        td:last-child {
+            text-align: center;
+        }
+        .cover-cell img {
+            width: 60px;
+            height: 60px;
+            border-radius: 8px;
+            object-fit: cover;
+        }
+        .add-form button {
+            background: #48bb78;
+            border: none;
+            padding: 8px 16px;
+            color: white;
+            border-radius: 16px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s ease;
+        }
+        .add-form button:hover {
+            background: #38a169;
+        }
+        .albums {
+            margin-top: 30px;
+        }
+        .albums h2 {
+            margin-bottom: 20px;
+            color: #2d3748;
+        }
+        .album-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .album-card {
+            background-color: #ffffff;
+            border-radius: 16px;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+            width: calc(50% - 10px);
+            padding: 20px;
+            box-sizing: border-box;
+            text-align: center;
+            cursor: pointer;
+            border: 1px solid #dcdcdc;
+            transition: box-shadow 0.3s ease, transform 0.2s ease;
+        }
+        .album-card:hover {
+            box-shadow: 0 6px 14px rgba(0, 0, 0, 0.1);
+            transform: translateY(-4px);
+        }
+        .album-cover {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 12px;
+            background-color: #e2e8f0;
+        }
+        .album-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 6px;
+            color: #1a202c;
+        }
+        .album-year {
+            font-size: 15px;
+            color: #4a5568;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+
+    <div class="back-button">
+        <a href="/tracks">← Назад</a>
+    </div>
+
+    <div class="artist-header">
+        <div class="artist-label">Исполнитель</div>
+        <div class="artist-name" th:text="${artist.name}">Imagine Dragons</div>
+        <div class="listener-box">
+            Слушателей: <span th:text="${artist.listenerCount}">0</span>
+        </div>
+        <div class="play-button">
+            <button onclick="playAllTracks()">▶ Слушать</button>
+        </div>
+    </div>
+
+    <div class="table-wrapper">
+        <table>
+            <thead>
+            <tr>
+                <th>Обложка</th>
+                <th>Название</th>
+                <th>Аудио</th>
+                <th>Действие</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="track : ${artist.tracks}">
+                <td class="cover-cell">
+                    <img th:src="@{'http://localhost:8083/images/' + ${track.coverImage}}" alt="Обложка"/>
+                </td>
+                <td th:text="${track.name}">Название трека</td>
+                <td class="audio-cell">
+                    <audio controls class="track-player">
+                        <source th:src="@{'http://localhost:8085/api/playback/secure/' + ${track.id}}" type="audio/mpeg">
+                        Ваш браузер не поддерживает аудио.
+                    </audio>
+                </td>
+                <td>
+                    <form th:action="@{'/playlists/favorites/add'}" method="post" class="add-form">
+                        <input type="hidden" name="trackId" th:value="${track.id}" />
+                        <button type="submit">Добавить</button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="albums" th:if="${artist.albums != null and !artist.albums.isEmpty()}">
+        <h2>Альбомы</h2>
+        <div class="album-list">
+            <div class="album-card"
+                 th:each="album : ${artist.albums}"
+                 th:attr="data-link=@{'/albums/' + ${album.id}}"
+                 onclick="window.location = this.getAttribute('data-link')">
+                <img th:src="@{'http://localhost:8083/images/' + ${album.coverImage}}" alt="Обложка" class="album-cover">
+                <div class="album-title" th:text="${album.title}">Название альбома</div>
+                <div class="album-year" th:text="${album.releaseYear}">Год выпуска</div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    function playAllTracks() {
+        const players = document.querySelectorAll('.track-player');
+        let current = 0;
+        function playNext() {
+            if (current < players.length) {
+                players[current].play();
+                players[current].onended = () => {
+                    current++;
+                    playNext();
+                };
+            }
+        }
+        playNext();
+    }
+</script>
+</body>
+</html>

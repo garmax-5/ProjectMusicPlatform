@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Админ-панель | Музыкальная платформа</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #f0f4ff, #fafafa);
+            margin: 0;
+            padding: 40px;
+        }
+
+        .toolbar {
+            background: white;
+            padding: 18px 30px;
+            border-radius: 18px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.07);
+            margin-bottom: 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .toolbar div:first-child {
+            font-size: 20px;
+            font-weight: 600;
+            color: #2d3748;
+        }
+
+        .toolbar a {
+            text-decoration: none;
+            font-weight: 500;
+            color: #e53e3e;
+        }
+
+        .toolbar a:hover {
+            color: #c53030;
+        }
+
+        .dashboard-container {
+            max-width: 1000px;
+            margin: auto;
+            background: white;
+            padding: 40px 30px;
+            border-radius: 20px;
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+            text-align: center;
+        }
+
+        .dashboard-header {
+            font-size: 28px;
+            font-weight: 700;
+            color: #2d3748;
+            margin-bottom: 30px;
+        }
+
+        .admin-actions {
+            display: flex;
+            flex-wrap: nowrap;
+            justify-content: center;
+            gap: 20px;
+            overflow-x: auto;
+        }
+
+        .admin-card {
+            background: #5a67d8;
+            color: white;
+            padding: 20px 28px;
+            border-radius: 16px;
+            min-width: 220px;
+            text-align: center;
+            text-decoration: none;
+            font-size: 17px;
+            font-weight: 500;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            transition: background 0.3s ease;
+        }
+
+        .admin-card:hover {
+            background: #434190;
+        }
+
+        @media (max-width: 600px) {
+            .dashboard-container {
+                padding: 30px 20px;
+            }
+
+            .admin-card {
+                min-width: 180px;
+                padding: 16px 20px;
+                font-size: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="toolbar">
+    <div>Админ-панель | GarMusic</div>
+    <div>
+        <a href="/login">Выйти</a>
+    </div>
+</div>
+
+<div class="dashboard-container">
+    <div class="dashboard-header">Панель администратора</div>
+
+    <div class="admin-actions">
+        <a href="/admin/tracks" class="admin-card">Управление треками</a>
+        <a href="/admin/albums" class="admin-card">Управление альбомами</a>
+        <a href="/admin/artists" class="admin-card">Управление артистами</a>
+    </div>
+</div>
+
+</body>
+</html>

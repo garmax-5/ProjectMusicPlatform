@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Треки | Музыкальная платформа</title>
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #f0f4ff, #fafafa);
+            margin: 0;
+            padding-bottom: 120px;
+        }
+        .header {
+            background: white;
+            padding: 18px 30px;
+            border-radius: 18px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.07);
+            margin-bottom: 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .header-left {
+            font-size: 22px;
+            font-weight: 600;
+            color: #4a4a4a;
+        }
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+            flex-wrap: wrap;
+        }
+        .header-right a {
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .header-right a:first-child {
+            color: #5a67d8;
+        }
+        .header-right a:last-child {
+            color: #e53e3e;
+        }
+        .header-search {
+            display: flex;
+            flex-grow: 1;
+            gap: 12px;
+        }
+        .header-search input[type="text"] {
+            flex-grow: 1;
+            padding: 10px 16px;
+            border: 2px solid #d0d7ff;
+            border-radius: 20px;
+            font-size: 15px;
+        }
+        .header-search button {
+            padding: 10px 20px;
+            background-color: #5a67d8;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            font-size: 15px;
+            cursor: pointer;
+        }
+        .header-search button:hover {
+            background-color: #434190;
+        }
+
+        .welcome-section {
+            display: flex;
+            justify-content: flex-start;
+            background-image: url('/images/welcome_music.png');
+            background-size: cover;
+            background-position: center;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.05);
+            margin: 40px auto;
+            max-width: 1000px;
+        }
+
+        .welcome-text {
+            background-color: rgba(255, 255, 255, 0.85);
+            padding: 30px;
+            border-radius: 20px;
+            max-width: 60%;
+        }
+
+        .welcome-text h1 {
+            font-size: 32px;
+            color: #2d3748;
+            margin-bottom: 12px;
+        }
+
+        .welcome-text p {
+            font-size: 18px;
+            color: #4a5568;
+            margin-bottom: 16px;
+        }
+
+        .quote-inline {
+            font-size: 16px;
+            font-style: italic;
+            color: #5a5a5a;
+            margin-bottom: 24px;
+        }
+
+        .welcome-text button {
+            padding: 14px 28px;
+            font-size: 16px;
+            border: none;
+            border-radius: 20px;
+            background-color: #5a67d8;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .welcome-text button:hover {
+            background-color: #434190;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
+        }
+
+        .filter-controls {
+            margin-bottom: 15px;
+        }
+
+        .filter-controls button {
+            padding: 8px 16px;
+            font-size: 15px;
+            border-radius: 20px;
+            background-color: #e2e8f0;
+            color: #2d3748;
+            border: none;
+            cursor: pointer;
+        }
+
+        .filter-controls button:hover {
+            background-color: #cbd5e0;
+        }
+
+        .genre-dialog {
+            display: none;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .genre-tile {
+            padding: 8px 14px;
+            border: 2px solid #cbd5e0;
+            border-radius: 18px;
+            background-color: white;
+            cursor: pointer;
+        }
+
+        .genre-tile.selected {
+            background-color: #5a67d8;
+            color: white;
+            border-color: #5a67d8;
+        }
+
+        .apply-button {
+            margin-top: 15px;
+            padding: 10px 24px;
+            border: none;
+            border-radius: 20px;
+            background-color: #5a67d8;
+            color: white;
+            font-size: 15px;
+            cursor: pointer;
+        }
+
+        .apply-button:hover {
+            background-color: #434190;
+        }
+
+        .not-found {
+            color: #e53e3e;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        .table-wrapper {
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead {
+            background: #edf2f7;
+        }
+
+        th {
+            padding: 14px 18px;
+            text-align: center;
+            color: #4a5568;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 14px 18px;
+            vertical-align: middle;
+            border-top: 1px solid #e2e8f0;
+            background: #ffffff;
+            text-align: left;
+        }
+
+        td.audio-cell audio {
+            width: 100%;
+            min-width: 200px;
+        }
+
+        td.add-cell {
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        .add-form {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .add-form button {
+            background: #48bb78;
+            border: none;
+            padding: 8px 16px;
+            color: white;
+            border-radius: 16px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s ease;
+        }
+
+        .add-form button:hover {
+            background: #38a169;
+        }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <div class="header-left">GarMusic</div>
+    <form th:action="@{/search}" method="get" class="header-search">
+        <input type="text" name="query" placeholder="Поиск трека или исполнителя..." th:value="${searchQuery}" required />
+        <button type="submit">Найти</button>
+    </form>
+    <div class="header-right">
+        <a href="/profile">Мой профиль</a>
+        <a href="/logout">Выйти</a>
+    </div>
+</div>
+
+<div class="welcome-section">
+    <div class="welcome-text">
+        <h1>GarMusic</h1>
+        <p>Наслаждайтесь любимыми композициями и создавайте собственные плейлисты.</p>
+        <div class="quote-inline" id="quote-box">Цитата загружается...</div>
+        <button onclick="playAllTracks()">▶ Слушать</button>
+    </div>
+</div>
+
+<div class="container">
+    <h1>Список треков</h1>
+    <div class="filter-controls">
+        <button onclick="toggleGenreDialog()">Категории</button>
+    </div>
+    <form id="genreFilterForm" th:action="@{/tracks}" method="get" class="genre-dialog">
+        <div th:each="genre : ${genres}" class="genre-tile" th:text="${genre.name}" th:attr="data-id=${genre.id}" onclick="toggleGenre(this)"></div>
+        <input type="hidden" name="genreIds" id="genreIdsInput" />
+        <div style="width: 100%; text-align: center;">
+            <button type="submit" class="apply-button">Применить</button>
+        </div>
+    </form>
+
+    <div th:if="${param.notFound}" class="not-found">
+        Ничего не найдено по вашему запросу.
+    </div>
+
+    <div class="table-wrapper">
+        <table>
+            <thead>
+            <tr>
+                <th>Обложка</th>
+                <th>Название</th>
+                <th>Исполнитель</th>
+                <th>Аудио</th>
+                <th>Избранное</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="track : ${tracks}">
+                <td>
+                    <img th:src="@{'http://localhost:8083/images/' + ${track.coverImage}}"
+                         alt="Обложка"
+                         style="width: 60px; height: 60px; border-radius: 8px; object-fit: cover;" />
+                </td>
+                <td th:text="${track.name}">Название трека</td>
+                <td th:text="${track.artistName}">Имя исполнителя</td>
+                <td class="audio-cell">
+                    <audio controls>
+                        <source th:src="@{'http://localhost:8085/api/playback/secure/' + ${track.id}}" type="audio/mpeg">
+                        Ваш браузер не поддерживает аудио.
+                    </audio>
+                </td>
+                <td class="add-cell">
+                    <form th:action="@{'/playlists/favorites/add'}" method="post" class="add-form">
+                        <input type="hidden" name="trackId" th:value="${track.id}" />
+                        <button type="submit">Добавить</button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div th:replace="fragments/mini-player :: miniPlayer"></div>
+
+<script>
+    function playAllTracks() {
+        fetch('/api/user/tracks/with-covers')
+            .then(response => response.json())
+            .then(tracks => {
+                if (tracks.length > 0) {
+                    const t = tracks[0];
+                    setTrack(t.name, t.artistName, t.fileUrl, t.coverImage);
+                }
+            })
+            .catch(error => {
+                console.error('Ошибка загрузки треков:', error);
+            });
+    }
+
+    function toggleGenreDialog() {
+        const dialog = document.querySelector('.genre-dialog');
+        dialog.style.display = dialog.style.display === 'flex' ? 'none' : 'flex';
+    }
+
+    function toggleGenre(el) {
+        el.classList.toggle('selected');
+    }
+
+    document.getElementById('genreFilterForm')?.addEventListener('submit', function (e) {
+        const selected = Array.from(document.querySelectorAll('.genre-tile.selected'))
+            .map(el => el.getAttribute('data-id'));
+        document.getElementById('genreIdsInput').value = selected.join(',');
+    });
+
+    const quotes = [
+        "«Где слова терпят поражение, музыка говорит.» — Ганс Христиан Андерсен",
+        "«Музыка — это жизнь, выраженная в звуках.»",
+        "«После тишины музыка выражает неизречённое лучше всего.» — Олдос Хаксли",
+        "«Музыка — душа Вселенной.» — Платон",
+        "«Хорошая музыка — как дождь: она проникает в душу.»"
+    ];
+
+    document.addEventListener("DOMContentLoaded", () => {
+        const quote = quotes[Math.floor(Math.random() * quotes.length)];
+        document.getElementById("quote-box").textContent = quote;
+    });
+</script>
+
+</body>
+</html>

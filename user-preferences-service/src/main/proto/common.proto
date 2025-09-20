@@ -1,0 +1,38 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "com.example.grpccommon";
+option java_outer_classname = "CatalogProto";
+option objc_class_prefix = "RTG";
+
+package catalog;
+
+service CatalogService {
+  // Новые методы для проверки существования
+  rpc CheckAlbumExists(CheckAlbumRequest) returns (ExistsResponse);
+  rpc CheckArtistExists(CheckArtistRequest) returns (ExistsResponse);
+  rpc GetTrackById(CheckTrackRequest) returns (TrackResponse);
+}
+
+message CheckAlbumRequest {
+  int64 albumId = 1;
+}
+
+message CheckArtistRequest {
+  int64 artistId = 1;
+}
+
+message ExistsResponse {
+  bool exists = 1;
+}
+
+message CheckTrackRequest {
+  int64 trackId = 1;
+}
+
+message TrackResponse {
+  int64 trackId = 1;
+  string trackName = 2;
+  string fileUrl = 3;
+  string artistName = 4;
+}

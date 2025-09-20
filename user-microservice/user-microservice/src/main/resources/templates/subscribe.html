@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Оформление подписки | GarMusic</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #f0f4ff, #fafafa);
+            padding: 40px;
+            margin: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #2d3748;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .subscription-option {
+            padding: 20px;
+            border: 2px solid #cbd5e0;
+            border-radius: 16px;
+            cursor: pointer;
+            transition: border-color 0.3s ease, background 0.3s ease;
+        }
+
+        .subscription-option:hover {
+            border-color: #5a67d8;
+            background-color: #f7f8ff;
+        }
+
+        .subscription-option input[type="radio"] {
+            margin-right: 12px;
+        }
+
+        .details {
+            font-size: 16px;
+            color: #4a5568;
+        }
+
+        button {
+            align-self: center;
+            padding: 12px 24px;
+            background-color: #5a67d8;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #434190;
+        }
+
+        .back-link {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .back-link a {
+            color: #718096;
+            text-decoration: none;
+        }
+
+        .back-link a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Выберите подписку</h1>
+    <form th:action="@{/subscribe}" method="post">
+        <div th:each="sub : ${subscriptions}" class="subscription-option">
+            <label>
+                <input type="radio" name="subscriptionId" th:value="${sub.subscriptionId}" required>
+                <span class="details" th:text="${sub.subscriptionName + ' — ' + sub.durationDays + ' дней, ' + sub.price + ' ₽'}">
+                    Название — 30 дней, 150 ₽
+                </span>
+            </label>
+        </div>
+        <button type="submit">Оформить подписку</button>
+    </form>
+
+    <div class="back-link">
+        <a href="/profile">← Вернуться в профиль</a>
+    </div>
+</div>
+
+</body>
+</html>

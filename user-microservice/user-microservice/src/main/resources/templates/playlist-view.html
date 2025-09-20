@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${playlist.name} + ' | Плейлист'">Плейлист</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #f0f4ff, #fafafa);
+            margin: 0;
+            padding: 40px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+            position: relative;
+        }
+
+        .back-button,
+        .delete-button-top {
+            position: absolute;
+            top: 20px;
+        }
+
+        .back-button {
+            left: 25px;
+        }
+
+        .delete-button-top {
+            right: 25px;
+        }
+
+        .back-button a,
+        .delete-button-top button {
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 16px;
+            font-size: 14px;
+            font-weight: 500;
+            border: none;
+            cursor: pointer;
+        }
+
+        .back-button a {
+            background-color: #6c757d;
+            color: white;
+        }
+
+        .back-button a:hover {
+            background-color: #5a6268;
+        }
+
+        .delete-button-top button {
+            background-color: #e53e3e;
+            color: white;
+        }
+
+        .delete-button-top button:hover {
+            background-color: #c53030;
+        }
+
+        .playlist-header {
+            margin-bottom: 30px;
+        }
+
+        .playlist-label {
+            font-size: 16px;
+            font-weight: 600;
+            color: #718096;
+            margin-bottom: 6px;
+        }
+
+        .playlist-title-big {
+            font-size: 40px;
+            font-weight: bold;
+            color: #2d3748;
+            margin-bottom: 15px;
+        }
+
+        .listen-button {
+            margin-bottom: 30px;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 20px;
+            background-color: #5a67d8;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .listen-button:hover {
+            background-color: #434190;
+        }
+
+        .search-form {
+            margin: 30px 0;
+            display: flex;
+            gap: 12px;
+        }
+
+        .search-form input[type="text"] {
+            flex-grow: 1;
+            padding: 12px 16px;
+            border: 2px solid #d0d7ff;
+            border-radius: 16px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+
+        .search-form input:focus {
+            outline: none;
+            border-color: #7f9cf5;
+        }
+
+        .search-form button {
+            padding: 12px 24px;
+            background-color: #5a67d8;
+            color: white;
+            border: none;
+            border-radius: 16px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .search-form button:hover {
+            background-color: #434190;
+        }
+
+        .table-wrapper {
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+            margin-bottom: 30px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead {
+            background: #edf2f7;
+        }
+
+        th, td {
+            padding: 14px 18px;
+            color: #4a5568;
+            vertical-align: middle;
+        }
+
+        th {
+            text-align: center;
+            font-weight: 600;
+        }
+
+        td {
+            text-align: left;
+        }
+
+        th:nth-child(1), td:nth-child(1) {
+            width: 25%;
+        }
+
+        th:nth-child(2), td:nth-child(2) {
+            width: 25%;
+        }
+
+        th:nth-child(3), td:nth-child(3) {
+            width: 35%;
+        }
+
+        th:nth-child(4), td:nth-child(4) {
+            width: 15%;
+            text-align: center;
+        }
+
+        .audio-cell audio {
+            width: 100%;
+            min-width: 200px;
+        }
+
+        .add-form button,
+        .delete-form button {
+            background: #48bb78;
+            border: none;
+            padding: 8px 16px;
+            color: white;
+            border-radius: 16px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .add-form button:hover {
+            background: #38a169;
+        }
+
+        .delete-form button {
+            background-color: #e53e3e;
+        }
+
+        .delete-form button:hover {
+            background-color: #c53030;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="back-button">
+        <a href="/profile">← Назад</a>
+    </div>
+
+    <div class="delete-button-top">
+        <form th:action="@{'/playlists/' + ${playlist.id} + '/delete'}" method="post">
+            <button type="submit">Удалить плейлист</button>
+        </form>
+    </div>
+
+    <div class="playlist-header" style="margin-top: 60px;">
+        <div class="playlist-label">Плейлист</div>
+        <div class="playlist-title-big" th:text="${playlist.name}">Название плейлиста</div>
+    </div>
+
+    <button class="listen-button" onclick="playAllTracks()">▶ Слушать</button>
+
+    <form th:action="@{'/playlists/' + ${playlist.id} + '/search'}" method="get" class="search-form">
+        <input type="text" name="query" placeholder="Найти трек..." required />
+        <button type="submit">Поиск</button>
+    </form>
+
+    <div th:if="${foundTracks != null}">
+        <h3>Результаты поиска:</h3>
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                <tr>
+                    <th>Название</th>
+                    <th>Исполнитель</th>
+                    <th>Аудио</th>
+                    <th>Добавление</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="track, iterStat : ${foundTracks}">
+                    <td th:text="${track.name}">Название</td>
+                    <td th:text="${track.artistName}">Исполнитель</td>
+                    <td class="audio-cell">
+                        <audio th:id="'foundAudio' + ${iterStat.index}" controls>
+                            <source th:src="@{'http://localhost:8085/api/playback/secure/' + ${track.id}}" type="audio/mpeg">
+                            Ваш браузер не поддерживает аудио.
+                        </audio>
+                    </td>
+                    <td>
+                        <form th:action="@{'/playlists/' + ${playlist.id} + '/add-track'}" method="post" class="add-form">
+                            <input type="hidden" name="trackId" th:value="${track.id}" />
+                            <button type="submit">Добавить</button>
+                        </form>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="table-wrapper">
+        <table>
+            <thead>
+            <tr>
+                <th>Название</th>
+                <th>Исполнитель</th>
+                <th>Аудио</th>
+                <th>Удаление</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="track, iterStat : ${tracks}">
+                <td th:text="${track.name}">Название трека</td>
+                <td th:text="${track.artistName}">Имя исполнителя</td>
+                <td class="audio-cell">
+                    <audio th:id="'audio' + ${iterStat.index}" controls>
+                        <source th:src="@{'http://localhost:8085/api/playback/secure/' + ${track.id}}" type="audio/mpeg">
+                        Ваш браузер не поддерживает аудио.
+                    </audio>
+                </td>
+                <td>
+                    <form th:action="@{'/playlists/' + ${playlist.id} + '/remove-track'}" method="post" class="delete-form">
+                        <input type="hidden" name="trackId" th:value="${track.id}" />
+                        <button type="submit">Удалить</button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    function playAllTracks() {
+        const audios = document.querySelectorAll('audio');
+        let current = 0;
+
+        function playNext() {
+            if (current < audios.length) {
+                const audio = audios[current];
+                audio.play();
+                audio.onended = () => {
+                    current++;
+                    playNext();
+                };
+            }
+        }
+
+        playNext();
+    }
+</script>
+</body>
+</html>

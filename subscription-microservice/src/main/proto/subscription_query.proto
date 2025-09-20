@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "com.example.grpccommon.query";
+option java_outer_classname = "SubscriptionQueryProto";
+
+package subscriptionquery;
+
+service SubscriptionQueryService {
+  rpc HasActiveSubscription(SubscriptionCheckRequest) returns (SubscriptionCheckResponse);
+}
+
+message SubscriptionCheckRequest {
+  int64 userId = 1;
+}
+
+message SubscriptionCheckResponse {
+  bool isActive = 1;
+}

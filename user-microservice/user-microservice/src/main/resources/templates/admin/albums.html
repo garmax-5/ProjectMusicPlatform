@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Управление альбомами | Админ-панель</title>
+    <style>
+        * { box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #f0f4ff, #fafafa);
+            padding: 40px;
+            margin: 0;
+        }
+        .toolbar {
+            background: white;
+            padding: 18px 30px;
+            border-radius: 18px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.07);
+            margin-bottom: 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .toolbar div:first-child {
+            font-size: 20px;
+            font-weight: 600;
+            color: #2d3748;
+        }
+        .toolbar a {
+            text-decoration: none;
+            margin-left: 25px;
+            font-weight: 500;
+        }
+        .toolbar a:first-child { color: #5a67d8; }
+        .toolbar a:last-child { color: #e53e3e; }
+
+        .container {
+            max-width: 900px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
+        }
+
+        h1 { margin-top: 0; margin-bottom: 30px; color: #2d3748; }
+
+        form.album-form {
+            margin-bottom: 40px;
+            background: #f9f9ff;
+            padding: 25px 30px;
+            border-radius: 16px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.04);
+        }
+
+        .form-group { margin-bottom: 20px; }
+        label { font-weight: 600; display: block; margin-bottom: 6px; color: #4a5568; }
+        input, select {
+            width: 100%; padding: 12px 14px; border: 2px solid #d0d7ff;
+            border-radius: 12px; font-size: 15px; background: white;
+        }
+        input:focus, select:focus {
+            outline: none; border-color: #7f9cf5;
+        }
+        button {
+            background-color: #5a67d8; color: white;
+            padding: 12px 24px; border: none; border-radius: 24px;
+            cursor: pointer; font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+        button:hover { background-color: #434190; }
+
+        .edit-button {
+            background-color: #4299e1; color: white;
+            padding: 8px 16px; border: none; border-radius: 16px;
+            cursor: pointer; font-size: 14px; margin-right: 8px;
+        }
+        .edit-button:hover { background-color: #3182ce; }
+
+        .delete-button {
+            background-color: #e53e3e; color: white;
+            padding: 8px 16px; border: none; border-radius: 16px;
+            cursor: pointer; font-size: 14px;
+            transition: background-color 0.3s ease;
+        }
+        .delete-button:hover { background-color: #c53030; }
+
+        .form-row-inline {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+
+        .form-row-inline input {
+            flex: 1;
+            padding: 12px 14px;
+            border-radius: 12px;
+            border: 2px solid #d0d7ff;
+        }
+
+        .form-row-inline button {
+            padding: 12px 20px;
+            background-color: #5a67d8;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+        }
+
+        .table-wrapper {
+            border-radius: 16px; overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            table-layout: fixed;
+        }
+
+        thead { background: #edf2f7; }
+
+        th, td {
+            padding: 14px 12px;
+            text-align: left;
+            vertical-align: middle;
+            border-top: 1px solid #e2e8f0;
+            color: #4a5568;
+        }
+
+        th:nth-child(1), td:nth-child(1) { width: 45%; }
+        th:nth-child(2), td:nth-child(2) { width: 25%; }
+        th:nth-child(3), td:nth-child(3) { width: 30%; }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0; top: 0;
+            width: 100%; height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.5);
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 8% auto;
+            padding: 30px;
+            border: 1px solid #888;
+            border-radius: 12px;
+            width: 450px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        .modal h2 { margin-top: 0; }
+
+        .modal input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 12px;
+            border-radius: 10px;
+            border: 1px solid #ccc;
+        }
+
+        .modal .modal-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+
+        .save-button { background-color: #38a169; color: white; }
+        .cancel-button { background-color: #e2e8f0; color: #2d3748; }
+    </style>
+</head>
+<body>
+<div class="toolbar">
+    <div>Админ-панель | GarMusic</div>
+    <div>
+        <a href="/admin/dashboard">Главная</a>
+        <a href="/logout">Выйти</a>
+    </div>
+</div>
+<div class="container">
+    <h1>Управление альбомами</h1>
+
+    <!-- Добавление альбома -->
+    <form th:action="@{/admin/albums/create}" method="post" th:object="${newAlbum}" class="album-form">
+        <div class="form-group">
+            <label>Название альбома</label>
+            <input type="text" th:field="*{albumName}" required />
+        </div>
+        <div class="form-group">
+            <label>Год релиза</label>
+            <input type="number" th:field="*{releaseYear}" required />
+        </div>
+        <div class="form-group">
+            <label>Тип альбома</label>
+            <select th:field="*{albumTypeId}" required>
+                <option th:each="type : ${albumTypes}" th:value="${type.id}" th:text="${type.name}">Тип</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Ссылка на обложку (URL)</label>
+            <input type="text" th:field="*{coverImage}" />
+        </div>
+        <div class="form-group">
+            <label>Имя исполнителя</label>
+            <input type="text" th:field="*{artistName}" required />
+        </div>
+        <div class="form-group">
+            <button type="submit">Создать альбом</button>
+        </div>
+    </form>
+
+    <!-- Поиск -->
+    <form th:action="@{/admin/albums/search}" method="get">
+        <div class="form-row-inline">
+            <input type="text" name="query" placeholder="Поиск альбома по названию" required>
+            <button type="submit">Найти</button>
+        </div>
+    </form>
+
+    <!-- Таблица альбомов -->
+    <div class="table-wrapper" th:if="${albums != null and #lists.size(albums) > 0}">
+        <table>
+            <thead>
+            <tr>
+                <th>Название</th>
+                <th>Год</th>
+                <th>Действие</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="album : ${albums}">
+                <td th:text="${album.albumName}">Название</td>
+                <td th:text="${album.releaseYear}">2024</td>
+                <td>
+                    <button class="edit-button"
+                            th:attr="data-id=${album.id}, data-name=${album.albumName}, data-year=${album.releaseYear}, data-cover=${album.coverImage}">Редактировать</button>
+                    <form th:action="@{'/admin/albums/delete/' + ${album.id}}" method="post" style="display:inline;">
+                        <button type="submit" class="delete-button">Удалить</button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Модальное окно -->
+<div id="editModal" class="modal">
+    <div class="modal-content">
+        <h2>Редактировать альбом</h2>
+        <form id="editAlbumForm">
+            <input type="hidden" id="edit-id">
+            <label>Название</label>
+            <input type="text" id="edit-name" required>
+            <label>Год</label>
+            <input type="number" id="edit-year" required>
+            <label>Обложка (URL)</label>
+            <input type="text" id="edit-cover">
+            <div class="modal-actions">
+                <button type="button" class="cancel-button" onclick="document.getElementById('editModal').style.display = 'none';">Отмена</button>
+                <button type="submit" class="save-button">Сохранить</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    document.querySelectorAll(".edit-button").forEach(button => {
+        button.addEventListener("click", () => {
+            document.getElementById("edit-id").value = button.dataset.id;
+            document.getElementById("edit-name").value = button.dataset.name;
+            document.getElementById("edit-year").value = button.dataset.year;
+            document.getElementById("edit-cover").value = button.dataset.cover;
+            document.getElementById("editModal").style.display = "block";
+        });
+    });
+
+    document.getElementById("editAlbumForm").addEventListener("submit", function(e) {
+        e.preventDefault();
+        const id = document.getElementById("edit-id").value;
+        const updated = {
+            albumName: document.getElementById("edit-name").value,
+            releaseYear: parseInt(document.getElementById("edit-year").value),
+            coverImage: document.getElementById("edit-cover").value
+        };
+        fetch(`/api/catalog/albums/${id}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(updated)
+        }).then(r => {
+            if (!r.ok) throw new Error("Ошибка при обновлении");
+            location.reload();
+        }).catch(e => alert("Не удалось обновить альбом: " + e.message));
+    });
+</script>
+</body>
+</html>

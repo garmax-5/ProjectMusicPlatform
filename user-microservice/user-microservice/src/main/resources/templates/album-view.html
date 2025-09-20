@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${album.title} + ' | Альбом'">Альбом</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #f0f4ff, #fafafa);
+            padding: 40px;
+            margin: 0;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
+            position: relative;
+        }
+
+        .back-button {
+            position: absolute;
+            top: 20px;
+            left: 25px;
+        }
+
+        .back-button a {
+            text-decoration: none;
+            background-color: #6c757d;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        .back-button a:hover {
+            background-color: #5a6268;
+        }
+
+        .cover {
+            width: 100%;
+            height: 320px;
+            object-fit: cover;
+            border-radius: 16px;
+            margin-top: 60px;
+            margin-bottom: 25px;
+            background: #e0e0e0;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+
+        .album-header {
+            margin-top: 10px;
+            margin-bottom: 24px;
+        }
+
+        .album-label {
+            font-size: 16px;
+            font-weight: 600;
+            color: #718096;
+            margin-bottom: 6px;
+        }
+
+        .album-title-big {
+            font-size: 52px;
+            font-weight: bold;
+            color: #2d3748;
+            margin-bottom: 20px;
+        }
+
+        .details p {
+            margin: 6px 0;
+            font-size: 16px;
+            color: #4a5568;
+        }
+
+        .details strong {
+            color: #2c5282;
+        }
+
+        .play-all-button {
+            margin-bottom: 30px;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 20px;
+            background-color: #5a67d8;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .play-all-button:hover {
+            background-color: #434190;
+        }
+
+        h2 {
+            color: #2d3748;
+            margin-bottom: 15px;
+        }
+
+        .table-wrapper {
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            table-layout: fixed;
+        }
+
+        thead {
+            background: #edf2f7;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: center;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        th:nth-child(1), td.cover-cell {
+            width: 80px;
+        }
+
+        th:nth-child(2), td:nth-child(2) {
+            width: 25%;
+            text-align: left;
+        }
+
+        th:nth-child(3), td.audio-cell {
+            width: 45%;
+        }
+
+        th:nth-child(4), td:nth-child(4) {
+            width: 15%;
+        }
+
+        .cover-cell img {
+            width: 60px;
+            height: 60px;
+            border-radius: 8px;
+            object-fit: cover;
+        }
+
+        td.audio-cell audio {
+            width: 100%;
+        }
+
+        .add-form button {
+            background: #48bb78;
+            border: none;
+            padding: 8px 16px;
+            color: white;
+            border-radius: 16px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s ease;
+        }
+
+        .add-form button:hover {
+            background: #38a169;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+
+    <div class="back-button">
+        <a href="/tracks">← Назад</a>
+    </div>
+
+    <img th:src="@{'http://localhost:8083/images/' + ${album.coverImage}}" class="cover" alt="Обложка альбома">
+
+    <div class="album-header">
+        <div class="album-label">Альбом</div>
+        <div class="album-title-big" th:text="${album.title}">Название альбома</div>
+        <div class="details">
+            <p><strong>Исполнитель:</strong> <span th:text="${album.artistName}">Исполнитель</span></p>
+            <p><strong>Год выпуска:</strong> <span th:text="${album.releaseYear}">2020</span></p>
+        </div>
+    </div>
+
+    <button id="play-all-button" class="play-all-button">▶ Слушать</button>
+
+    <h2>Список треков</h2>
+    <div class="table-wrapper">
+        <table>
+            <thead>
+            <tr>
+                <th>Обложка</th>
+                <th>Название</th>
+                <th>Аудио</th>
+                <th>Действие</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="track : ${album.tracks}">
+                <td class="cover-cell">
+                    <img th:src="@{'http://localhost:8083/images/' + ${album.coverImage}}" alt="Обложка"/>
+                </td>
+                <td th:text="${track.name}">Название трека</td>
+                <td class="audio-cell">
+                    <audio class="track-audio" controls>
+                        <source th:src="@{'http://localhost:8085/api/playback/secure/' + ${track.id}}" type="audio/mpeg">
+                        Ваш браузер не поддерживает аудио.
+                    </audio>
+                </td>
+                <td>
+                    <form th:action="@{'/playlists/favorites/add'}" method="post" class="add-form">
+                        <input type="hidden" name="trackId" th:value="${track.id}" />
+                        <button type="submit">Добавить</button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const button = document.getElementById('play-all-button');
+        const audios = Array.from(document.querySelectorAll('.track-audio'));
+
+        button.addEventListener('click', () => {
+            if (audios.length === 0) return;
+
+            let current = 0;
+
+            const playNext = () => {
+                if (current >= audios.length) return;
+
+                audios.forEach(audio => {
+                    audio.pause();
+                    audio.currentTime = 0;
+                });
+
+                const currentAudio = audios[current];
+                currentAudio.play();
+
+                currentAudio.onended = () => {
+                    current++;
+                    playNext();
+                };
+            };
+
+            playNext();
+        });
+    });
+</script>
+</body>
+</html>
