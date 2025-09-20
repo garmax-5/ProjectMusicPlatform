@@ -33,39 +33,39 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
             throws ServletException, IOException {
 
-
         final String authorizationHeader = request.getHeader("Authorization");
 
         String username = null;
         String jwt = null;
 
-        // Логируем начало обработки запроса
         log.debug("Обработка запроса на ввод URI: {}", request.getRequestURI());
 
-        // Извлекаем токен из заголовка
         if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
             jwt = authorizationHeader.substring(7);
-            username = jwtTokenUtil.extractUsername(jwt);
-            log.debug("Извлеченный токен: {}", jwt);
-            log.debug("Извлеченное имя пользователя из токена: {}", username);
+            try {
+                username = jwtTokenUtil.extractUsername(jwt);
+                log.debug("Извлеченный токен: {}", jwt);
+                log.debug("Извлеченное имя пользователя из токена: {}", username);
+            } catch (Exception e) {
+                log.warn("Ошибка при извлечении имени пользователя из токена: {}", e.getMessage());
+            }
         } else {
             log.warn("Заголовок Authorization отсутствует или не начинается с Bearer");
         }
 
-        // Проверяем, аутентифицирован ли пользователь в текущей сессии
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             try {
                 log.debug("Пользователь '{}' не аутентифицирован, проверяем валидность токена.", username);
-                UserDetails userDetails = customUserDetailsService.loadUserByEmail(username);
 
-                // Проверяем валидность токена
+                // ✅ Используем метод, возвращающий UserDetails
+                UserDetails userDetails = customUserDetailsService.loadUserByUsername(username);
+
                 if (jwtTokenUtil.validateToken(jwt, userDetails)) {
                     UsernamePasswordAuthenticationToken authToken =
                             new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                     authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-
-                    // Устанавливаем аутентификацию в SecurityContext
                     SecurityContextHolder.getContext().setAuthentication(authToken);
+
                     log.debug("Аутентификация установлена в SecurityContext для пользователя: {}", username);
                 } else {
                     log.warn("Невалидный или истекший токен для пользователя: {}", username);
@@ -80,6 +80,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         } else {
             log.debug("Имя пользователя отсутствует или аутентификация уже установлена.");
         }
+
         chain.doFilter(request, response);
     }
 }

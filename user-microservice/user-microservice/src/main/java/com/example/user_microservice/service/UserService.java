@@ -1,6 +1,7 @@
 package com.example.user_microservice.service;
 
 import com.example.grpccommon.SubscriptionServiceGrpc;
+import com.example.user_microservice.dto.UserCreateRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -11,6 +12,7 @@ import com.example.user_microservice.repository.RoleRepository;
 import com.example.user_microservice.repository.UserRepository;
 import com.example.user_microservice.service.SubscriptionClient;
 
+import java.time.LocalDate;
 import java.util.Optional;
 
 @Slf4j
@@ -44,18 +46,22 @@ public class UserService {
         }
     }
 
-    public User createUser(User user) {
-        // Получаем роль из базы данных по roleId
-        Optional<Role> roleOptional = roleRepository.findById(user.getRole().getRoleId());
-        if (roleOptional.isEmpty()) {
-            throw new IllegalArgumentException("Роль не найдена");
+    public User createUser(UserCreateRequest request) {
+        Role role = roleRepository.findById(2L)
+                .orElseThrow(() -> new IllegalStateException("Роль с ID 2 (User) не найдена"));
+
+        User user = new User();
+        user.setUsername(request.getUsername());
+        user.setGender(request.getGender());
+
+        if (request.getBirthday() != null) {
+            user.setBirthday(LocalDate.parse(request.getBirthday()));
         }
-        Role role = roleOptional.get();
-        // Устанавливаем роль пользователю
+
+        user.setEmail(request.getEmail());
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
         user.setRole(role);
-        // Шифруем пароль
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        // Сохраняем пользователя в базе данных
+
         return userRepository.save(user);
     }
 
@@ -67,7 +73,5 @@ public class UserService {
         log.info("Обработка подписки для пользователя: {}", userId);
         return subscriptionClient.sendUserSubscription(userId, subscriptionId);
     }
-
-
 }
 

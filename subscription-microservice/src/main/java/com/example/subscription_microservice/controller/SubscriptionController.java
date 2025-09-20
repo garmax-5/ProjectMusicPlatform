@@ -1,37 +1,37 @@
 package com.example.subscription_microservice.controller;
 
-
-import org.springframework.beans.factory.annotation.Autowired;
+import com.example.subscription_microservice.dto.SubscriptionRequestDTO;
+import com.example.subscription_microservice.dto.SubscriptionResponseDTO;
+import com.example.subscription_microservice.service.SubscriptionService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import com.example.subscription_microservice.dto.SubscriptionRequest;
-import com.example.subscription_microservice.model.Subscription;
-import com.example.subscription_microservice.model.UserSubscription;
-import com.example.subscription_microservice.service.SubscriptionService;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/subscriptions")
+@RequiredArgsConstructor
 public class SubscriptionController {
-    private SubscriptionService subscriptionService;
 
-    @Autowired
-    public SubscriptionController(SubscriptionService subscriptionService) {
-        this.subscriptionService = subscriptionService;
-    }
+    private final SubscriptionService subscriptionService;
 
     @PostMapping
-    public ResponseEntity<Subscription> createSubscription(@RequestBody Subscription subscription) {
-        Subscription createdSubscription = subscriptionService.createSubscription(subscription);
-        return ResponseEntity.status(HttpStatus.CREATED).body(createdSubscription);
+    public ResponseEntity<SubscriptionResponseDTO> createSubscription(@RequestBody @Valid SubscriptionRequestDTO request) {
+        SubscriptionResponseDTO response = subscriptionService.createSubscription(request);
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @GetMapping("/{userId}")
-    public ResponseEntity<List<Subscription>> getUserSubscriptions(@PathVariable Long userId) {
-        List<Subscription> subscriptions = subscriptionService.findSubscriptionsByUserId(userId);
+    public ResponseEntity<List<SubscriptionResponseDTO>> getUserSubscriptions(@PathVariable Long userId) {
+        List<SubscriptionResponseDTO> subscriptions = subscriptionService.findSubscriptionsByUserId(userId);
+
+        if (subscriptions.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+
         return ResponseEntity.ok(subscriptions);
     }
-
 }

@@ -9,6 +9,8 @@ package service;
 
 service SubscriptionService {
   rpc CreateSubscription (CreateSubscriptionRequest) returns (CreateSubscriptionResponse);
+  rpc GetAvailableSubscriptions (Empty) returns (SubscriptionListResponse);
+  rpc GetSubscriptionsByUserId (UserIdRequest) returns (SubscriptionListResponse);
 }
 
 message CreateSubscriptionRequest {
@@ -19,4 +21,21 @@ message CreateSubscriptionRequest {
 message CreateSubscriptionResponse {
   bool success = 1;
   string message = 2;
+}
+
+message Empty {}
+
+message UserIdRequest {
+  int64 userId = 1;
+}
+
+message Subscription {
+  int64 subscriptionId = 1;
+  string subscriptionName = 2;
+  double price = 3;
+  int32 durationDays = 4;
+}
+
+message SubscriptionListResponse {
+  repeated Subscription subscriptions = 1;
 }

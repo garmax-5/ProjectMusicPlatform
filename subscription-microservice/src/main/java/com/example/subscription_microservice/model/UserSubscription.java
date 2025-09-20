@@ -19,11 +19,7 @@ public class UserSubscription {
     @Column(name = "user_id", nullable = false)
     private Long userId; // ID пользователя из User Service
 
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "user_id", nullable = false)
-//    private User user; // Ссылка на пользователя
-
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "subscription_id", nullable = false)
     private Subscription subscription; // Ссылка на подписку
 

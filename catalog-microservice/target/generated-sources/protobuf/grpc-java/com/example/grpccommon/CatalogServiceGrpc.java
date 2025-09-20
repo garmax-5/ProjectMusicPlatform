@@ -15,97 +15,97 @@ public final class CatalogServiceGrpc {
   public static final java.lang.String SERVICE_NAME = "catalog.CatalogService";
 
   // Static method descriptors that strictly reflect the proto.
-  private static volatile io.grpc.MethodDescriptor<com.example.grpccommon.GetAlbumRequest,
-      com.example.grpccommon.GetAlbumResponse> getGetAlbumDetailsMethod;
+  private static volatile io.grpc.MethodDescriptor<com.example.grpccommon.CheckAlbumRequest,
+      com.example.grpccommon.ExistsResponse> getCheckAlbumExistsMethod;
 
   @io.grpc.stub.annotations.RpcMethod(
-      fullMethodName = SERVICE_NAME + '/' + "GetAlbumDetails",
-      requestType = com.example.grpccommon.GetAlbumRequest.class,
-      responseType = com.example.grpccommon.GetAlbumResponse.class,
+      fullMethodName = SERVICE_NAME + '/' + "CheckAlbumExists",
+      requestType = com.example.grpccommon.CheckAlbumRequest.class,
+      responseType = com.example.grpccommon.ExistsResponse.class,
       methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
-  public static io.grpc.MethodDescriptor<com.example.grpccommon.GetAlbumRequest,
-      com.example.grpccommon.GetAlbumResponse> getGetAlbumDetailsMethod() {
-    io.grpc.MethodDescriptor<com.example.grpccommon.GetAlbumRequest, com.example.grpccommon.GetAlbumResponse> getGetAlbumDetailsMethod;
-    if ((getGetAlbumDetailsMethod = CatalogServiceGrpc.getGetAlbumDetailsMethod) == null) {
+  public static io.grpc.MethodDescriptor<com.example.grpccommon.CheckAlbumRequest,
+      com.example.grpccommon.ExistsResponse> getCheckAlbumExistsMethod() {
+    io.grpc.MethodDescriptor<com.example.grpccommon.CheckAlbumRequest, com.example.grpccommon.ExistsResponse> getCheckAlbumExistsMethod;
+    if ((getCheckAlbumExistsMethod = CatalogServiceGrpc.getCheckAlbumExistsMethod) == null) {
       synchronized (CatalogServiceGrpc.class) {
-        if ((getGetAlbumDetailsMethod = CatalogServiceGrpc.getGetAlbumDetailsMethod) == null) {
-          CatalogServiceGrpc.getGetAlbumDetailsMethod = getGetAlbumDetailsMethod =
-              io.grpc.MethodDescriptor.<com.example.grpccommon.GetAlbumRequest, com.example.grpccommon.GetAlbumResponse>newBuilder()
+        if ((getCheckAlbumExistsMethod = CatalogServiceGrpc.getCheckAlbumExistsMethod) == null) {
+          CatalogServiceGrpc.getCheckAlbumExistsMethod = getCheckAlbumExistsMethod =
+              io.grpc.MethodDescriptor.<com.example.grpccommon.CheckAlbumRequest, com.example.grpccommon.ExistsResponse>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "GetAlbumDetails"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "CheckAlbumExists"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  com.example.grpccommon.GetAlbumRequest.getDefaultInstance()))
+                  com.example.grpccommon.CheckAlbumRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  com.example.grpccommon.GetAlbumResponse.getDefaultInstance()))
-              .setSchemaDescriptor(new CatalogServiceMethodDescriptorSupplier("GetAlbumDetails"))
+                  com.example.grpccommon.ExistsResponse.getDefaultInstance()))
+              .setSchemaDescriptor(new CatalogServiceMethodDescriptorSupplier("CheckAlbumExists"))
               .build();
         }
       }
     }
-    return getGetAlbumDetailsMethod;
+    return getCheckAlbumExistsMethod;
   }
 
-  private static volatile io.grpc.MethodDescriptor<com.example.grpccommon.GetArtistRequest,
-      com.example.grpccommon.GetArtistResponse> getGetArtistDetailsMethod;
+  private static volatile io.grpc.MethodDescriptor<com.example.grpccommon.CheckArtistRequest,
+      com.example.grpccommon.ExistsResponse> getCheckArtistExistsMethod;
 
   @io.grpc.stub.annotations.RpcMethod(
-      fullMethodName = SERVICE_NAME + '/' + "GetArtistDetails",
-      requestType = com.example.grpccommon.GetArtistRequest.class,
-      responseType = com.example.grpccommon.GetArtistResponse.class,
+      fullMethodName = SERVICE_NAME + '/' + "CheckArtistExists",
+      requestType = com.example.grpccommon.CheckArtistRequest.class,
+      responseType = com.example.grpccommon.ExistsResponse.class,
       methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
-  public static io.grpc.MethodDescriptor<com.example.grpccommon.GetArtistRequest,
-      com.example.grpccommon.GetArtistResponse> getGetArtistDetailsMethod() {
-    io.grpc.MethodDescriptor<com.example.grpccommon.GetArtistRequest, com.example.grpccommon.GetArtistResponse> getGetArtistDetailsMethod;
-    if ((getGetArtistDetailsMethod = CatalogServiceGrpc.getGetArtistDetailsMethod) == null) {
+  public static io.grpc.MethodDescriptor<com.example.grpccommon.CheckArtistRequest,
+      com.example.grpccommon.ExistsResponse> getCheckArtistExistsMethod() {
+    io.grpc.MethodDescriptor<com.example.grpccommon.CheckArtistRequest, com.example.grpccommon.ExistsResponse> getCheckArtistExistsMethod;
+    if ((getCheckArtistExistsMethod = CatalogServiceGrpc.getCheckArtistExistsMethod) == null) {
       synchronized (CatalogServiceGrpc.class) {
-        if ((getGetArtistDetailsMethod = CatalogServiceGrpc.getGetArtistDetailsMethod) == null) {
-          CatalogServiceGrpc.getGetArtistDetailsMethod = getGetArtistDetailsMethod =
-              io.grpc.MethodDescriptor.<com.example.grpccommon.GetArtistRequest, com.example.grpccommon.GetArtistResponse>newBuilder()
+        if ((getCheckArtistExistsMethod = CatalogServiceGrpc.getCheckArtistExistsMethod) == null) {
+          CatalogServiceGrpc.getCheckArtistExistsMethod = getCheckArtistExistsMethod =
+              io.grpc.MethodDescriptor.<com.example.grpccommon.CheckArtistRequest, com.example.grpccommon.ExistsResponse>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "GetArtistDetails"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "CheckArtistExists"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  com.example.grpccommon.GetArtistRequest.getDefaultInstance()))
+                  com.example.grpccommon.CheckArtistRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  com.example.grpccommon.GetArtistResponse.getDefaultInstance()))
-              .setSchemaDescriptor(new CatalogServiceMethodDescriptorSupplier("GetArtistDetails"))
+                  com.example.grpccommon.ExistsResponse.getDefaultInstance()))
+              .setSchemaDescriptor(new CatalogServiceMethodDescriptorSupplier("CheckArtistExists"))
               .build();
         }
       }
     }
-    return getGetArtistDetailsMethod;
+    return getCheckArtistExistsMethod;
   }
 
-  private static volatile io.grpc.MethodDescriptor<com.example.grpccommon.GetTrackRequest,
-      com.example.grpccommon.GetTrackResponse> getGetTrackDetailsMethod;
+  private static volatile io.grpc.MethodDescriptor<com.example.grpccommon.CheckTrackRequest,
+      com.example.grpccommon.TrackResponse> getGetTrackByIdMethod;
 
   @io.grpc.stub.annotations.RpcMethod(
-      fullMethodName = SERVICE_NAME + '/' + "GetTrackDetails",
-      requestType = com.example.grpccommon.GetTrackRequest.class,
-      responseType = com.example.grpccommon.GetTrackResponse.class,
+      fullMethodName = SERVICE_NAME + '/' + "GetTrackById",
+      requestType = com.example.grpccommon.CheckTrackRequest.class,
+      responseType = com.example.grpccommon.TrackResponse.class,
       methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
-  public static io.grpc.MethodDescriptor<com.example.grpccommon.GetTrackRequest,
-      com.example.grpccommon.GetTrackResponse> getGetTrackDetailsMethod() {
-    io.grpc.MethodDescriptor<com.example.grpccommon.GetTrackRequest, com.example.grpccommon.GetTrackResponse> getGetTrackDetailsMethod;
-    if ((getGetTrackDetailsMethod = CatalogServiceGrpc.getGetTrackDetailsMethod) == null) {
+  public static io.grpc.MethodDescriptor<com.example.grpccommon.CheckTrackRequest,
+      com.example.grpccommon.TrackResponse> getGetTrackByIdMethod() {
+    io.grpc.MethodDescriptor<com.example.grpccommon.CheckTrackRequest, com.example.grpccommon.TrackResponse> getGetTrackByIdMethod;
+    if ((getGetTrackByIdMethod = CatalogServiceGrpc.getGetTrackByIdMethod) == null) {
       synchronized (CatalogServiceGrpc.class) {
-        if ((getGetTrackDetailsMethod = CatalogServiceGrpc.getGetTrackDetailsMethod) == null) {
-          CatalogServiceGrpc.getGetTrackDetailsMethod = getGetTrackDetailsMethod =
-              io.grpc.MethodDescriptor.<com.example.grpccommon.GetTrackRequest, com.example.grpccommon.GetTrackResponse>newBuilder()
+        if ((getGetTrackByIdMethod = CatalogServiceGrpc.getGetTrackByIdMethod) == null) {
+          CatalogServiceGrpc.getGetTrackByIdMethod = getGetTrackByIdMethod =
+              io.grpc.MethodDescriptor.<com.example.grpccommon.CheckTrackRequest, com.example.grpccommon.TrackResponse>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "GetTrackDetails"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "GetTrackById"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  com.example.grpccommon.GetTrackRequest.getDefaultInstance()))
+                  com.example.grpccommon.CheckTrackRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  com.example.grpccommon.GetTrackResponse.getDefaultInstance()))
-              .setSchemaDescriptor(new CatalogServiceMethodDescriptorSupplier("GetTrackDetails"))
+                  com.example.grpccommon.TrackResponse.getDefaultInstance()))
+              .setSchemaDescriptor(new CatalogServiceMethodDescriptorSupplier("GetTrackById"))
               .build();
         }
       }
     }
-    return getGetTrackDetailsMethod;
+    return getGetTrackByIdMethod;
   }
 
   /**
@@ -157,24 +157,27 @@ public final class CatalogServiceGrpc {
   public interface AsyncService {
 
     /**
+     * <pre>
+     * Новые методы для проверки существования
+     * </pre>
      */
-    default void getAlbumDetails(com.example.grpccommon.GetAlbumRequest request,
-        io.grpc.stub.StreamObserver<com.example.grpccommon.GetAlbumResponse> responseObserver) {
-      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getGetAlbumDetailsMethod(), responseObserver);
+    default void checkAlbumExists(com.example.grpccommon.CheckAlbumRequest request,
+        io.grpc.stub.StreamObserver<com.example.grpccommon.ExistsResponse> responseObserver) {
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getCheckAlbumExistsMethod(), responseObserver);
     }
 
     /**
      */
-    default void getArtistDetails(com.example.grpccommon.GetArtistRequest request,
-        io.grpc.stub.StreamObserver<com.example.grpccommon.GetArtistResponse> responseObserver) {
-      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getGetArtistDetailsMethod(), responseObserver);
+    default void checkArtistExists(com.example.grpccommon.CheckArtistRequest request,
+        io.grpc.stub.StreamObserver<com.example.grpccommon.ExistsResponse> responseObserver) {
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getCheckArtistExistsMethod(), responseObserver);
     }
 
     /**
      */
-    default void getTrackDetails(com.example.grpccommon.GetTrackRequest request,
-        io.grpc.stub.StreamObserver<com.example.grpccommon.GetTrackResponse> responseObserver) {
-      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getGetTrackDetailsMethod(), responseObserver);
+    default void getTrackById(com.example.grpccommon.CheckTrackRequest request,
+        io.grpc.stub.StreamObserver<com.example.grpccommon.TrackResponse> responseObserver) {
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getGetTrackByIdMethod(), responseObserver);
     }
   }
 
@@ -206,27 +209,30 @@ public final class CatalogServiceGrpc {
     }
 
     /**
+     * <pre>
+     * Новые методы для проверки существования
+     * </pre>
      */
-    public void getAlbumDetails(com.example.grpccommon.GetAlbumRequest request,
-        io.grpc.stub.StreamObserver<com.example.grpccommon.GetAlbumResponse> responseObserver) {
+    public void checkAlbumExists(com.example.grpccommon.CheckAlbumRequest request,
+        io.grpc.stub.StreamObserver<com.example.grpccommon.ExistsResponse> responseObserver) {
       io.grpc.stub.ClientCalls.asyncUnaryCall(
-          getChannel().newCall(getGetAlbumDetailsMethod(), getCallOptions()), request, responseObserver);
+          getChannel().newCall(getCheckAlbumExistsMethod(), getCallOptions()), request, responseObserver);
     }
 
     /**
      */
-    public void getArtistDetails(com.example.grpccommon.GetArtistRequest request,
-        io.grpc.stub.StreamObserver<com.example.grpccommon.GetArtistResponse> responseObserver) {
+    public void checkArtistExists(com.example.grpccommon.CheckArtistRequest request,
+        io.grpc.stub.StreamObserver<com.example.grpccommon.ExistsResponse> responseObserver) {
       io.grpc.stub.ClientCalls.asyncUnaryCall(
-          getChannel().newCall(getGetArtistDetailsMethod(), getCallOptions()), request, responseObserver);
+          getChannel().newCall(getCheckArtistExistsMethod(), getCallOptions()), request, responseObserver);
     }
 
     /**
      */
-    public void getTrackDetails(com.example.grpccommon.GetTrackRequest request,
-        io.grpc.stub.StreamObserver<com.example.grpccommon.GetTrackResponse> responseObserver) {
+    public void getTrackById(com.example.grpccommon.CheckTrackRequest request,
+        io.grpc.stub.StreamObserver<com.example.grpccommon.TrackResponse> responseObserver) {
       io.grpc.stub.ClientCalls.asyncUnaryCall(
-          getChannel().newCall(getGetTrackDetailsMethod(), getCallOptions()), request, responseObserver);
+          getChannel().newCall(getGetTrackByIdMethod(), getCallOptions()), request, responseObserver);
     }
   }
 
@@ -247,24 +253,27 @@ public final class CatalogServiceGrpc {
     }
 
     /**
+     * <pre>
+     * Новые методы для проверки существования
+     * </pre>
      */
-    public com.example.grpccommon.GetAlbumResponse getAlbumDetails(com.example.grpccommon.GetAlbumRequest request) {
+    public com.example.grpccommon.ExistsResponse checkAlbumExists(com.example.grpccommon.CheckAlbumRequest request) {
       return io.grpc.stub.ClientCalls.blockingUnaryCall(
-          getChannel(), getGetAlbumDetailsMethod(), getCallOptions(), request);
+          getChannel(), getCheckAlbumExistsMethod(), getCallOptions(), request);
     }
 
     /**
      */
-    public com.example.grpccommon.GetArtistResponse getArtistDetails(com.example.grpccommon.GetArtistRequest request) {
+    public com.example.grpccommon.ExistsResponse checkArtistExists(com.example.grpccommon.CheckArtistRequest request) {
       return io.grpc.stub.ClientCalls.blockingUnaryCall(
-          getChannel(), getGetArtistDetailsMethod(), getCallOptions(), request);
+          getChannel(), getCheckArtistExistsMethod(), getCallOptions(), request);
     }
 
     /**
      */
-    public com.example.grpccommon.GetTrackResponse getTrackDetails(com.example.grpccommon.GetTrackRequest request) {
+    public com.example.grpccommon.TrackResponse getTrackById(com.example.grpccommon.CheckTrackRequest request) {
       return io.grpc.stub.ClientCalls.blockingUnaryCall(
-          getChannel(), getGetTrackDetailsMethod(), getCallOptions(), request);
+          getChannel(), getGetTrackByIdMethod(), getCallOptions(), request);
     }
   }
 
@@ -285,33 +294,36 @@ public final class CatalogServiceGrpc {
     }
 
     /**
+     * <pre>
+     * Новые методы для проверки существования
+     * </pre>
      */
-    public com.google.common.util.concurrent.ListenableFuture<com.example.grpccommon.GetAlbumResponse> getAlbumDetails(
-        com.example.grpccommon.GetAlbumRequest request) {
+    public com.google.common.util.concurrent.ListenableFuture<com.example.grpccommon.ExistsResponse> checkAlbumExists(
+        com.example.grpccommon.CheckAlbumRequest request) {
       return io.grpc.stub.ClientCalls.futureUnaryCall(
-          getChannel().newCall(getGetAlbumDetailsMethod(), getCallOptions()), request);
+          getChannel().newCall(getCheckAlbumExistsMethod(), getCallOptions()), request);
     }
 
     /**
      */
-    public com.google.common.util.concurrent.ListenableFuture<com.example.grpccommon.GetArtistResponse> getArtistDetails(
-        com.example.grpccommon.GetArtistRequest request) {
+    public com.google.common.util.concurrent.ListenableFuture<com.example.grpccommon.ExistsResponse> checkArtistExists(
+        com.example.grpccommon.CheckArtistRequest request) {
       return io.grpc.stub.ClientCalls.futureUnaryCall(
-          getChannel().newCall(getGetArtistDetailsMethod(), getCallOptions()), request);
+          getChannel().newCall(getCheckArtistExistsMethod(), getCallOptions()), request);
     }
 
     /**
      */
-    public com.google.common.util.concurrent.ListenableFuture<com.example.grpccommon.GetTrackResponse> getTrackDetails(
-        com.example.grpccommon.GetTrackRequest request) {
+    public com.google.common.util.concurrent.ListenableFuture<com.example.grpccommon.TrackResponse> getTrackById(
+        com.example.grpccommon.CheckTrackRequest request) {
       return io.grpc.stub.ClientCalls.futureUnaryCall(
-          getChannel().newCall(getGetTrackDetailsMethod(), getCallOptions()), request);
+          getChannel().newCall(getGetTrackByIdMethod(), getCallOptions()), request);
     }
   }
 
-  private static final int METHODID_GET_ALBUM_DETAILS = 0;
-  private static final int METHODID_GET_ARTIST_DETAILS = 1;
-  private static final int METHODID_GET_TRACK_DETAILS = 2;
+  private static final int METHODID_CHECK_ALBUM_EXISTS = 0;
+  private static final int METHODID_CHECK_ARTIST_EXISTS = 1;
+  private static final int METHODID_GET_TRACK_BY_ID = 2;
 
   private static final class MethodHandlers<Req, Resp> implements
       io.grpc.stub.ServerCalls.UnaryMethod<Req, Resp>,
@@ -330,17 +342,17 @@ public final class CatalogServiceGrpc {
     @java.lang.SuppressWarnings("unchecked")
     public void invoke(Req request, io.grpc.stub.StreamObserver<Resp> responseObserver) {
       switch (methodId) {
-        case METHODID_GET_ALBUM_DETAILS:
-          serviceImpl.getAlbumDetails((com.example.grpccommon.GetAlbumRequest) request,
-              (io.grpc.stub.StreamObserver<com.example.grpccommon.GetAlbumResponse>) responseObserver);
+        case METHODID_CHECK_ALBUM_EXISTS:
+          serviceImpl.checkAlbumExists((com.example.grpccommon.CheckAlbumRequest) request,
+              (io.grpc.stub.StreamObserver<com.example.grpccommon.ExistsResponse>) responseObserver);
           break;
-        case METHODID_GET_ARTIST_DETAILS:
-          serviceImpl.getArtistDetails((com.example.grpccommon.GetArtistRequest) request,
-              (io.grpc.stub.StreamObserver<com.example.grpccommon.GetArtistResponse>) responseObserver);
+        case METHODID_CHECK_ARTIST_EXISTS:
+          serviceImpl.checkArtistExists((com.example.grpccommon.CheckArtistRequest) request,
+              (io.grpc.stub.StreamObserver<com.example.grpccommon.ExistsResponse>) responseObserver);
           break;
-        case METHODID_GET_TRACK_DETAILS:
-          serviceImpl.getTrackDetails((com.example.grpccommon.GetTrackRequest) request,
-              (io.grpc.stub.StreamObserver<com.example.grpccommon.GetTrackResponse>) responseObserver);
+        case METHODID_GET_TRACK_BY_ID:
+          serviceImpl.getTrackById((com.example.grpccommon.CheckTrackRequest) request,
+              (io.grpc.stub.StreamObserver<com.example.grpccommon.TrackResponse>) responseObserver);
           break;
         default:
           throw new AssertionError();
@@ -361,26 +373,26 @@ public final class CatalogServiceGrpc {
   public static final io.grpc.ServerServiceDefinition bindService(AsyncService service) {
     return io.grpc.ServerServiceDefinition.builder(getServiceDescriptor())
         .addMethod(
-          getGetAlbumDetailsMethod(),
+          getCheckAlbumExistsMethod(),
           io.grpc.stub.ServerCalls.asyncUnaryCall(
             new MethodHandlers<
-              com.example.grpccommon.GetAlbumRequest,
-              com.example.grpccommon.GetAlbumResponse>(
-                service, METHODID_GET_ALBUM_DETAILS)))
+              com.example.grpccommon.CheckAlbumRequest,
+              com.example.grpccommon.ExistsResponse>(
+                service, METHODID_CHECK_ALBUM_EXISTS)))
         .addMethod(
-          getGetArtistDetailsMethod(),
+          getCheckArtistExistsMethod(),
           io.grpc.stub.ServerCalls.asyncUnaryCall(
             new MethodHandlers<
-              com.example.grpccommon.GetArtistRequest,
-              com.example.grpccommon.GetArtistResponse>(
-                service, METHODID_GET_ARTIST_DETAILS)))
+              com.example.grpccommon.CheckArtistRequest,
+              com.example.grpccommon.ExistsResponse>(
+                service, METHODID_CHECK_ARTIST_EXISTS)))
         .addMethod(
-          getGetTrackDetailsMethod(),
+          getGetTrackByIdMethod(),
           io.grpc.stub.ServerCalls.asyncUnaryCall(
             new MethodHandlers<
-              com.example.grpccommon.GetTrackRequest,
-              com.example.grpccommon.GetTrackResponse>(
-                service, METHODID_GET_TRACK_DETAILS)))
+              com.example.grpccommon.CheckTrackRequest,
+              com.example.grpccommon.TrackResponse>(
+                service, METHODID_GET_TRACK_BY_ID)))
         .build();
   }
 
@@ -429,9 +441,9 @@ public final class CatalogServiceGrpc {
         if (result == null) {
           serviceDescriptor = result = io.grpc.ServiceDescriptor.newBuilder(SERVICE_NAME)
               .setSchemaDescriptor(new CatalogServiceFileDescriptorSupplier())
-              .addMethod(getGetAlbumDetailsMethod())
-              .addMethod(getGetArtistDetailsMethod())
-              .addMethod(getGetTrackDetailsMethod())
+              .addMethod(getCheckAlbumExistsMethod())
+              .addMethod(getCheckArtistExistsMethod())
+              .addMethod(getGetTrackByIdMethod())
               .build();
         }
       }

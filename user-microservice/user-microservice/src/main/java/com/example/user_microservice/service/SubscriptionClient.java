@@ -1,26 +1,20 @@
 package com.example.user_microservice.service;
 
-import com.example.grpccommon.SubscriptionServiceGrpc;
-import com.example.grpccommon.CreateSubscriptionResponse;
-import com.example.grpccommon.CreateSubscriptionRequest;
+import com.example.grpccommon.*;
 
+import com.example.user_microservice.dto.SubscriptionResponseDTO;
 import lombok.extern.slf4j.Slf4j;
 import net.devh.boot.grpc.client.inject.GrpcClient;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
 public class SubscriptionClient {
     @GrpcClient(value = "data-generator-blocking")
     private SubscriptionServiceGrpc.SubscriptionServiceBlockingStub subscriptionStub;
-
-//    public SubscriptionClient(@Value("${grpc.client.GLOBAL.address}") String grpcServerAddress) {
-//        ManagedChannel channel = ManagedChannelBuilder
-//                .forTarget(grpcServerAddress)
-//                .usePlaintext()
-//                .build();
-//        this.subscriptionStub = SubscriptionServiceGrpc.newBlockingStub(channel);
-//    }
 
     public boolean sendUserSubscription(Long userId, Long subscriptionId) {
         // Подготовка запроса
@@ -45,6 +39,41 @@ public class SubscriptionClient {
         } else {
             log.warn("Не удалось создать подписку: {}", response.getMessage());
             return false;
+        }
+    }
+
+    public List<SubscriptionResponseDTO> getAllAvailableSubscriptions() {
+        try {
+            SubscriptionListResponse response = subscriptionStub.getAvailableSubscriptions(Empty.newBuilder().build());
+            return response.getSubscriptionsList().stream()
+                    .map(s -> new SubscriptionResponseDTO(
+                            s.getSubscriptionId(),
+                            s.getSubscriptionName(),
+                            s.getPrice(),
+                            s.getDurationDays()
+                    ))
+                    .collect(Collectors.toList());
+        } catch (Exception e) {
+            log.error("Ошибка при получении подписок: {}", e.getMessage());
+            return List.of();
+        }
+    }
+
+    public List<SubscriptionResponseDTO> getUserSubscriptions(Long userId) {
+        try {
+            UserIdRequest request = UserIdRequest.newBuilder().setUserId(userId).build();
+            SubscriptionListResponse response = subscriptionStub.getSubscriptionsByUserId(request);
+            return response.getSubscriptionsList().stream()
+                    .map(s -> new SubscriptionResponseDTO(
+                            s.getSubscriptionId(),
+                            s.getSubscriptionName(),
+                            s.getPrice(),
+                            s.getDurationDays()
+                    ))
+                    .collect(Collectors.toList());
+        } catch (Exception e) {
+            log.error("Ошибка при получении подписок пользователя: {}", e.getMessage());
+            return List.of();
         }
     }
 }

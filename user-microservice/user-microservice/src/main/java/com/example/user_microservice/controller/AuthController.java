@@ -1,6 +1,7 @@
 package com.example.user_microservice.controller;
 
 
+import com.example.user_microservice.dto.AuthResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -31,18 +32,18 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> authenticateUser(@RequestBody AuthRequest authRequest) {
+    public ResponseEntity<AuthResponse> authenticateUser(@RequestBody AuthRequest authRequest) {
         log.info("Попытка аутентификации пользователя: {}", authRequest.getEmail());
         User user = customUserDetailsService.loadUserByEmail(authRequest.getEmail());
 
         if (user != null && passwordEncoder.matches(authRequest.getPassword(), user.getPassword())) {
-            String token = jwtTokenUtil.generateToken(user.getUsername());
-            log.info("Аутентификация пользователя прошла успешно: {}", authRequest.getEmail());
-            return ResponseEntity.ok("Bearer " + token);
+            String token = jwtTokenUtil.generateToken(user.getEmail());
+            log.info("Аутентификация прошла успешно: {}", authRequest.getEmail());
+            return ResponseEntity.ok(new AuthResponse("Bearer " + token));
         }
 
-        log.warn("Не удалось выполнить аутентификацию пользователя: {}", authRequest.getEmail());
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Unauthorized");
+        log.warn("Неудачная попытка входа: {}", authRequest.getEmail());
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new AuthResponse("Unauthorized"));
     }
 }
 

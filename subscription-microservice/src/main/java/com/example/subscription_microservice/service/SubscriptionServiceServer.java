@@ -1,19 +1,19 @@
 package com.example.subscription_microservice.service;
 
-import com.example.grpccommon.CreateSubscriptionRequest;
-import com.example.grpccommon.CreateSubscriptionResponse;
-import com.example.grpccommon.SubscriptionServiceGrpc;
+import com.example.grpccommon.*;
+import com.example.subscription_microservice.model.Subscription;
+import com.example.subscription_microservice.service.SubscriptionService;
+import com.example.grpccommon.Empty;
 import io.grpc.stub.StreamObserver;
 import lombok.extern.slf4j.Slf4j;
 import net.devh.boot.grpc.server.service.GrpcService;
-import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
-
+import java.util.List;
 
 @Slf4j
 @GrpcService
-public class SubscriptionServiceServer extends SubscriptionServiceGrpc.SubscriptionServiceImplBase{
+public class SubscriptionServiceServer extends SubscriptionServiceGrpc.SubscriptionServiceImplBase {
+
     private final SubscriptionService subscriptionService;
 
     public SubscriptionServiceServer(SubscriptionService subscriptionService) {
@@ -48,5 +48,46 @@ public class SubscriptionServiceServer extends SubscriptionServiceGrpc.Subscript
             responseObserver.onNext(response);
             responseObserver.onCompleted();
         }
+    }
+
+    @Override
+    public void getAvailableSubscriptions(Empty request, StreamObserver<SubscriptionListResponse> responseObserver) {
+        List<Subscription> all = subscriptionService.getAll();
+
+        SubscriptionListResponse.Builder responseBuilder = SubscriptionListResponse.newBuilder();
+        for (Subscription s : all) {
+            responseBuilder.addSubscriptions(
+                    com.example.grpccommon.Subscription.newBuilder()
+                            .setSubscriptionId(s.getSubscriptionId())
+                            .setSubscriptionName(s.getSubscriptionName())
+                            .setPrice(s.getPrice())
+                            .setDurationDays(s.getDurationDays())
+                            .build()
+            );
+        }
+
+        responseObserver.onNext(responseBuilder.build());
+        responseObserver.onCompleted();
+    }
+
+    @Override
+    public void getSubscriptionsByUserId(UserIdRequest request, StreamObserver<SubscriptionListResponse> responseObserver) {
+        long userId = request.getUserId();
+        List<com.example.subscription_microservice.dto.SubscriptionResponseDTO> userSubs = subscriptionService.findSubscriptionsByUserId(userId);
+
+        SubscriptionListResponse.Builder responseBuilder = SubscriptionListResponse.newBuilder();
+        for (com.example.subscription_microservice.dto.SubscriptionResponseDTO s : userSubs) {
+            responseBuilder.addSubscriptions(
+                    com.example.grpccommon.Subscription.newBuilder()
+                            .setSubscriptionId(s.getSubscriptionId())
+                            .setSubscriptionName(s.getSubscriptionName())
+                            .setPrice(s.getPrice())
+                            .setDurationDays(s.getDurationDays())
+                            .build()
+            );
+        }
+
+        responseObserver.onNext(responseBuilder.build());
+        responseObserver.onCompleted();
     }
 }

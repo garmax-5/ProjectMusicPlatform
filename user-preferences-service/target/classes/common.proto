@@ -8,45 +8,31 @@ option objc_class_prefix = "RTG";
 package catalog;
 
 service CatalogService {
-  rpc GetAlbumDetails(GetAlbumRequest) returns (GetAlbumResponse);
-  rpc GetArtistDetails(GetArtistRequest) returns (GetArtistResponse);
-  rpc GetTrackDetails(GetTrackRequest) returns (GetTrackResponse); // Новый метод
+  // Новые методы для проверки существования
+  rpc CheckAlbumExists(CheckAlbumRequest) returns (ExistsResponse);
+  rpc CheckArtistExists(CheckArtistRequest) returns (ExistsResponse);
+  rpc GetTrackById(CheckTrackRequest) returns (TrackResponse);
 }
 
-message GetAlbumRequest {
+message CheckAlbumRequest {
   int64 albumId = 1;
 }
 
-message GetAlbumResponse {
-  int64 albumId = 1;
-  string albumName = 2;
-  string albumType = 3;
-  int32 releaseYear = 4;
-}
-
-message GetArtistRequest {
+message CheckArtistRequest {
   int64 artistId = 1;
 }
 
-message GetArtistResponse {
-  int64 artistId = 1;
-  string artistName = 2;
-  int32 listenerCount = 3;
+message ExistsResponse {
+  bool exists = 1;
 }
 
-// Новый запрос для получения информации о треке
-message GetTrackRequest {
-  int64 trackId = 1; // Идентификатор трека
+message CheckTrackRequest {
+  int64 trackId = 1;
 }
 
-// Новый ответ для получения информации о треке
-message GetTrackResponse {
+message TrackResponse {
   int64 trackId = 1;
   string trackName = 2;
-  int32 duration = 3;
-  string fileUrl = 4;
-  string genreName = 5; // Название жанра
-  string mediaTypeName = 6; // Тип медиа
-  int64 albumId = 7; // Идентификатор альбома
-  string albumName = 8; // Название альбома
+  string fileUrl = 3;
+  string artistName = 4;
 }

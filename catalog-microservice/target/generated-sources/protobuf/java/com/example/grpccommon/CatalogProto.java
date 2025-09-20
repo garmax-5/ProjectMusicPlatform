@@ -16,35 +16,30 @@ public final class CatalogProto {
         (com.google.protobuf.ExtensionRegistryLite) registry);
   }
   static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_catalog_GetAlbumRequest_descriptor;
+    internal_static_catalog_CheckAlbumRequest_descriptor;
   static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_catalog_GetAlbumRequest_fieldAccessorTable;
+      internal_static_catalog_CheckAlbumRequest_fieldAccessorTable;
   static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_catalog_GetAlbumResponse_descriptor;
+    internal_static_catalog_CheckArtistRequest_descriptor;
   static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_catalog_GetAlbumResponse_fieldAccessorTable;
+      internal_static_catalog_CheckArtistRequest_fieldAccessorTable;
   static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_catalog_GetArtistRequest_descriptor;
+    internal_static_catalog_ExistsResponse_descriptor;
   static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_catalog_GetArtistRequest_fieldAccessorTable;
+      internal_static_catalog_ExistsResponse_fieldAccessorTable;
   static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_catalog_GetArtistResponse_descriptor;
+    internal_static_catalog_CheckTrackRequest_descriptor;
   static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_catalog_GetArtistResponse_fieldAccessorTable;
+      internal_static_catalog_CheckTrackRequest_fieldAccessorTable;
   static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_catalog_GetTrackRequest_descriptor;
+    internal_static_catalog_TrackResponse_descriptor;
   static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_catalog_GetTrackRequest_fieldAccessorTable;
-  static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_catalog_GetTrackResponse_descriptor;
-  static final 
-    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_catalog_GetTrackResponse_fieldAccessorTable;
+      internal_static_catalog_TrackResponse_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -54,67 +49,55 @@ public final class CatalogProto {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\014common.proto\022\007catalog\"\"\n\017GetAlbumReque" +
-      "st\022\017\n\007albumId\030\001 \001(\003\"^\n\020GetAlbumResponse\022" +
-      "\017\n\007albumId\030\001 \001(\003\022\021\n\talbumName\030\002 \001(\t\022\021\n\ta" +
-      "lbumType\030\003 \001(\t\022\023\n\013releaseYear\030\004 \001(\005\"$\n\020G" +
-      "etArtistRequest\022\020\n\010artistId\030\001 \001(\003\"P\n\021Get" +
-      "ArtistResponse\022\020\n\010artistId\030\001 \001(\003\022\022\n\narti" +
-      "stName\030\002 \001(\t\022\025\n\rlistenerCount\030\003 \001(\005\"\"\n\017G" +
-      "etTrackRequest\022\017\n\007trackId\030\001 \001(\003\"\247\001\n\020GetT" +
-      "rackResponse\022\017\n\007trackId\030\001 \001(\003\022\021\n\ttrackNa" +
-      "me\030\002 \001(\t\022\020\n\010duration\030\003 \001(\005\022\017\n\007fileUrl\030\004 " +
-      "\001(\t\022\021\n\tgenreName\030\005 \001(\t\022\025\n\rmediaTypeName\030" +
-      "\006 \001(\t\022\017\n\007albumId\030\007 \001(\003\022\021\n\talbumName\030\010 \001(" +
-      "\t2\353\001\n\016CatalogService\022F\n\017GetAlbumDetails\022" +
-      "\030.catalog.GetAlbumRequest\032\031.catalog.GetA" +
-      "lbumResponse\022I\n\020GetArtistDetails\022\031.catal" +
-      "og.GetArtistRequest\032\032.catalog.GetArtistR" +
-      "esponse\022F\n\017GetTrackDetails\022\030.catalog.Get" +
-      "TrackRequest\032\031.catalog.GetTrackResponseB" +
-      ".\n\026com.example.grpccommonB\014CatalogProtoP" +
-      "\001\242\002\003RTGb\006proto3"
+      "\n\014common.proto\022\007catalog\"$\n\021CheckAlbumReq" +
+      "uest\022\017\n\007albumId\030\001 \001(\003\"&\n\022CheckArtistRequ" +
+      "est\022\020\n\010artistId\030\001 \001(\003\" \n\016ExistsResponse\022" +
+      "\016\n\006exists\030\001 \001(\010\"$\n\021CheckTrackRequest\022\017\n\007" +
+      "trackId\030\001 \001(\003\"X\n\rTrackResponse\022\017\n\007trackI" +
+      "d\030\001 \001(\003\022\021\n\ttrackName\030\002 \001(\t\022\017\n\007fileUrl\030\003 " +
+      "\001(\t\022\022\n\nartistName\030\004 \001(\t2\350\001\n\016CatalogServi" +
+      "ce\022G\n\020CheckAlbumExists\022\032.catalog.CheckAl" +
+      "bumRequest\032\027.catalog.ExistsResponse\022I\n\021C" +
+      "heckArtistExists\022\033.catalog.CheckArtistRe" +
+      "quest\032\027.catalog.ExistsResponse\022B\n\014GetTra" +
+      "ckById\022\032.catalog.CheckTrackRequest\032\026.cat" +
+      "alog.TrackResponseB.\n\026com.example.grpcco" +
+      "mmonB\014CatalogProtoP\001\242\002\003RTGb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
         });
-    internal_static_catalog_GetAlbumRequest_descriptor =
+    internal_static_catalog_CheckAlbumRequest_descriptor =
       getDescriptor().getMessageTypes().get(0);
-    internal_static_catalog_GetAlbumRequest_fieldAccessorTable = new
+    internal_static_catalog_CheckAlbumRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_catalog_GetAlbumRequest_descriptor,
+        internal_static_catalog_CheckAlbumRequest_descriptor,
         new java.lang.String[] { "AlbumId", });
-    internal_static_catalog_GetAlbumResponse_descriptor =
+    internal_static_catalog_CheckArtistRequest_descriptor =
       getDescriptor().getMessageTypes().get(1);
-    internal_static_catalog_GetAlbumResponse_fieldAccessorTable = new
+    internal_static_catalog_CheckArtistRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_catalog_GetAlbumResponse_descriptor,
-        new java.lang.String[] { "AlbumId", "AlbumName", "AlbumType", "ReleaseYear", });
-    internal_static_catalog_GetArtistRequest_descriptor =
-      getDescriptor().getMessageTypes().get(2);
-    internal_static_catalog_GetArtistRequest_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_catalog_GetArtistRequest_descriptor,
+        internal_static_catalog_CheckArtistRequest_descriptor,
         new java.lang.String[] { "ArtistId", });
-    internal_static_catalog_GetArtistResponse_descriptor =
+    internal_static_catalog_ExistsResponse_descriptor =
+      getDescriptor().getMessageTypes().get(2);
+    internal_static_catalog_ExistsResponse_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_catalog_ExistsResponse_descriptor,
+        new java.lang.String[] { "Exists", });
+    internal_static_catalog_CheckTrackRequest_descriptor =
       getDescriptor().getMessageTypes().get(3);
-    internal_static_catalog_GetArtistResponse_fieldAccessorTable = new
+    internal_static_catalog_CheckTrackRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_catalog_GetArtistResponse_descriptor,
-        new java.lang.String[] { "ArtistId", "ArtistName", "ListenerCount", });
-    internal_static_catalog_GetTrackRequest_descriptor =
-      getDescriptor().getMessageTypes().get(4);
-    internal_static_catalog_GetTrackRequest_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_catalog_GetTrackRequest_descriptor,
+        internal_static_catalog_CheckTrackRequest_descriptor,
         new java.lang.String[] { "TrackId", });
-    internal_static_catalog_GetTrackResponse_descriptor =
-      getDescriptor().getMessageTypes().get(5);
-    internal_static_catalog_GetTrackResponse_fieldAccessorTable = new
+    internal_static_catalog_TrackResponse_descriptor =
+      getDescriptor().getMessageTypes().get(4);
+    internal_static_catalog_TrackResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_catalog_GetTrackResponse_descriptor,
-        new java.lang.String[] { "TrackId", "TrackName", "Duration", "FileUrl", "GenreName", "MediaTypeName", "AlbumId", "AlbumName", });
+        internal_static_catalog_TrackResponse_descriptor,
+        new java.lang.String[] { "TrackId", "TrackName", "FileUrl", "ArtistName", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)
